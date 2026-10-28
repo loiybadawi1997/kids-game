@@ -70,3 +70,135 @@ body {
   font-size: 14px;
   pointer-events: none;
 }
+
+/* --- Speech bubbles --- */
+#bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 240px;
+  padding: 10px 16px 12px;
+  margin-top: -14px;
+  border-radius: 20px;
+  background: #fff;
+  color: #2b2d42;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  animation: pop 0.25s ease-out;
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  margin-left: -10px;
+  border: 10px solid transparent;
+  border-bottom: 0;
+  border-top-color: #fff;
+}
+
+.bubble-name {
+  font-size: 14px;
+  color: #e8590c;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes pop {
+  from { scale: 0.4; }
+  70% { scale: 1.1; }
+  to { scale: 1; }
+}
+
+/* --- First-time hint --- */
+#hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2b2d42;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  pointer-events: none;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  animation: bob 1.6s ease-in-out infinite;
+}
+
+#hint small {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6c6f80;
+}
+
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+
+/* --- Loading screen --- */
+#loading {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(#5fb4f5, #d6f0ff);
+  color: #fff;
+  transition: opacity 0.5s;
+}
+
+#loading.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loading .logo {
+  font-size: 80px;
+  animation: bob 1.2s ease-in-out infinite;
+}
+
+#loading .title {
+  font-size: 40px;
+  font-weight: 900;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+#loading .bar {
+  width: 220px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+}
+
+#loading .fill {
+  height: 100%;
+  width: 30%;
+  border-radius: 999px;
+  background: #ffd43b;
+  animation: slide 1s ease-in-out infinite alternate;
+}
+
+@keyframes slide {
+  from { margin-left: 0; }
+  to { margin-left: 70%; }
+}
