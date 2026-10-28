@@ -1,6 +1,8 @@
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { registerSW } from "virtual:pwa-register";
 import { Game } from "./game/game";
+import { loadQualitySetting } from "./game/graphics";
+import { SettingsMenu } from "./ui/settings";
 
 // Turn on the service worker so the game can be installed and works offline.
 registerSW({ immediate: true });
@@ -13,52 +15,36 @@ const hint = document.getElementById("hint") as HTMLDivElement;
 const showFps = new URLSearchParams(location.search).has("fps");
 fpsLabel.hidden = !showFps;
 
-// Antialiasing is on: it makes the cartoon edges look clean, and the
-// automatic quality setting below lowers the resolution if a phone struggles.
-const engine = new Engine(canvas, true, { stencil: false, powerPreference: "high-performance" }, false);
-
-/*
- * Automatic quality: start sharp (up to 2x pixel density). If the frame rate
- * stays low, draw fewer pixels. Older phones get a slightly softer picture
- * but stay smooth.
- */
-const dpr = window.devicePixelRatio || 1;
-const qualityLevels = [Math.min(dpr, 2), Math.min(dpr, 1.5), 1, 0.8];
-let quality = 0;
-engine.setHardwareScalingLevel(1 / qualityLevels[quality]);
+const engine = new Engine(canvas, true, { stencil: true, powerPreference: "high-performance" }, false);
 
 // Let the loading screen appear before the (slightly slow) town building starts.
 requestAnimationFrame(() =>
   setTimeout(() => {
-    const game = new Game(engine, canvas);
+    const game = new Game(engine, canvas, loadQualitySetting());
     game.setOnFirstTap(() => (hint.hidden = true));
+    const settings = new SettingsMenu(game.graphics);
+    settings.onOpenChange = (open) => (game.inputEnabled = !open);
+    game.town.setHomeNames([null, null, null, null, null, null]);
 
     let frame = 0;
-    let slowTime = 0;
+    let last = performance.now();
     engine.runRenderLoop(() => {
       game.update();
       game.scene.render();
       frame++;
 
-      // Check the frame rate twice a second.
+      // Check the frame rate twice a second (and let the graphics step down if it's too slow).
       if (frame % 30 === 0) {
+        const now = performance.now();
         const fps = engine.getFps();
-        if (showFps) fpsLabel.textContent = `${fps.toFixed(0)} FPS · ${qualityLevels[quality]}x`;
-        if (frame > 120 && fps < 40 && quality < qualityLevels.length - 1) {
-          slowTime += 0.5;
-          if (slowTime >= 2) {
-            quality++;
-            engine.setHardwareScalingLevel(1 / qualityLevels[quality]);
-            slowTime = 0;
-          }
-        } else {
-          slowTime = 0;
-        }
+        game.graphics.watchFrameRate(fps, (now - last) / 1000);
+        last = now;
+        if (showFps) fpsLabel.textContent = `${fps.toFixed(0)} FPS · ${game.graphics.quality}`;
       }
 
       if (frame === 3) {
-        // Handy for poking at the game from the browser console while developing.
-        if (import.meta.env.DEV) (window as unknown as { game: Game }).game = game;
+        // Handy for poking at the game from the browser console while testing.
+        (window as unknown as { game: Game }).game = game;
         loading.classList.add("done");
         hint.hidden = false;
         setTimeout(() => loading.remove(), 600);

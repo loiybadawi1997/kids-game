@@ -11,7 +11,10 @@ third-party files to credit:
 
 - Characters: `src/game/character.ts`
 - Houses, shops, trees, fountain, pond, playground and so on: `src/game/props.ts`
-- Sky and clouds: `src/game/sky.ts`
+- Sky, sun and clouds: `src/game/sky.ts`
+- Surface patterns (brick, wood, roof tiles, paving, grass) are drawn by a
+  shader from world position: `src/game/patterns.ts` (no image files)
+- Sign lettering is drawn at runtime with the device's own fonts and emoji: `src/game/signs.ts`
 - Ducks, butterflies and fountain water: `src/game/ambient.ts`
 
 The app icons in `public/` (`favicon.svg`, `icon-192.png`, `icon-512.png`,

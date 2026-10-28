@@ -22,6 +22,8 @@ The installed app opens full screen in landscape and works offline.
 - **Tap a person** to walk over and say hi.
 - **Drag** to turn the camera, **pinch** to zoom.
 
+Tap ⚙️ (top right) to change the picture quality (Auto, Low, Medium, High).
+
 Add `?fps` to the address to show the frame rate (useful when testing on phones).
 
 ## Work on it
@@ -45,6 +47,9 @@ npm run preview  # serves the built site, like it will be online
 - `src/game/townsfolk.ts`: the people who live in town and what they say
 - `src/game/navGrid.ts`: where characters can walk, and path finding
 - `src/game/meshKit.ts`: helpers that merge shapes so the game stays fast
+- `src/game/graphics.ts`: Low / Medium / High quality (shadows, bloom, patterns)
+- `src/game/patterns.ts`: brick, wood and tile patterns drawn by the GPU
+- `src/game/signs.ts`: all sign lettering, in one shared texture
 
 ## Deploying
 

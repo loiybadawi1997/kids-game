@@ -51,6 +51,16 @@ export class BlobShadows {
     this.items.push({ shadow, character });
   }
 
+  /** Use the new character's shadow for an old one (when the player changes avatar). */
+  replace(oldCharacter: Character, newCharacter: Character): void {
+    for (const item of this.items) if (item.character === oldCharacter) item.character = newCharacter;
+  }
+
+  /** Blob shadows are only needed when real shadows are off (Low quality). */
+  setVisible(visible: boolean): void {
+    for (const { shadow } of this.items) shadow.setEnabled(visible);
+  }
+
   update(): void {
     for (const { shadow, character } of this.items) {
       const p = character.position;
