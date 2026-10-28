@@ -1,0 +1,72 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #87ceeb;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Stop the browser from scrolling, zooming or selecting text on touch. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  touch-action: none;
+}
+
+/* Landscape only: in portrait we cover the game with a "turn your phone" message.
+   (Android installed apps are locked to landscape by the manifest; iPhones ignore
+   that setting, so this overlay is what keeps them in landscape.) */
+#rotate-hint {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #87ceeb;
+  color: #1b3a4b;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#rotate-hint .phone-icon {
+  font-size: 96px;
+  animation: turn 1.6s ease-in-out infinite;
+}
+
+@keyframes turn {
+  0%, 20% { transform: rotate(0deg); }
+  60%, 100% { transform: rotate(-90deg); }
+}
+
+@media (orientation: portrait) {
+  #rotate-hint {
+    display: flex;
+  }
+}
+
+/* Small frame-rate counter for testing performance on phones. */
+#fps {
+  position: fixed;
+  top: max(8px, env(safe-area-inset-top));
+  left: max(8px, env(safe-area-inset-left));
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 14px;
+  pointer-events: none;
+}
