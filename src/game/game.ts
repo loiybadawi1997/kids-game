@@ -44,6 +44,8 @@ export class Game {
   readonly town: TownInfo;
   /** When false, taps on the 3D world are ignored (a menu is open). */
   inputEnabled = true;
+  /** When true the camera slowly circles the town (behind the start screen). */
+  attract = false;
   /** Called when the player is standing at their shop's counter (or walks away: null). */
   onShopNearby: ((shop: ShopInfo | null) => void) | null = null;
 
@@ -159,8 +161,15 @@ export class Game {
     this.nearShop = false;
   }
 
+  /** Walk the player back to a Home Lane house. */
+  goHome(homeIndex: number): void {
+    const door = this.town.homes[homeIndex].door;
+    if (this.playerWalker.goTo(door.clone(), () => this.playerWalker.face(door.add(new Vector3(0, 0, -1))))) this.marker.show(door);
+  }
+
   /** Walk the player to their shop counter. */
   goToShop(): void {
+    this.marker.show(this.playerShop.keeper);
     this.playerWalker.goTo(this.playerShop.keeper.clone(), () => this.playerWalker.face(this.playerShop.keeper.add(new Vector3(Math.sin(this.playerShop.rotY), 0, Math.cos(this.playerShop.rotY)))));
   }
 
@@ -231,6 +240,8 @@ export class Game {
     this.marker.update(dt);
     this.sky.update(dt);
     this.town.update(dt);
+
+    if (this.attract) this.camera.alpha += dt * 0.06;
 
     // Camera glides after the player.
     const target = this.camera.target;

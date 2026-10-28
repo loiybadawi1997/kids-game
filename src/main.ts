@@ -3,6 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 import { Game } from "./game/game";
 import { loadQualitySetting } from "./game/graphics";
 import { SettingsMenu } from "./ui/settings";
+import { App } from "./app";
 
 // Turn on the service worker so the game can be installed and works offline.
 registerSW({ immediate: true });
@@ -23,8 +24,7 @@ requestAnimationFrame(() =>
     const game = new Game(engine, canvas, loadQualitySetting());
     game.setOnFirstTap(() => (hint.hidden = true));
     const settings = new SettingsMenu(game.graphics);
-    settings.onOpenChange = (open) => (game.inputEnabled = !open);
-    game.town.setHomeNames([null, null, null, null, null, null]);
+    const app = new App(game, settings, hint);
 
     let frame = 0;
     let last = performance.now();
@@ -44,9 +44,9 @@ requestAnimationFrame(() =>
 
       if (frame === 3) {
         // Handy for poking at the game from the browser console while testing.
-        (window as unknown as { game: Game }).game = game;
+        Object.assign(window as object, { game, app });
         loading.classList.add("done");
-        hint.hidden = false;
+        app.showPicker();
         setTimeout(() => loading.remove(), 600);
       }
     });

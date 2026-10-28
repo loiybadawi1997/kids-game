@@ -18,6 +18,12 @@ The installed app opens full screen in landscape and works offline.
 
 ## How to play
 
+- When the game opens, pick **who is playing** (or tap ➕ to make a new player).
+  Up to six children, each with a name, a level (⭐ Middle for 7–8, 🌟 Big for 9–10),
+  their own avatar and their own house on Home Lane. Tap ✏️ on a card to change it.
+  Everything is saved on this device only.
+- 🏠 walks you home, 🛒 walks you to your shop. Tap your picture (top left) to switch player.
+
 - **Tap the ground** to walk there.
 - **Tap a person** to walk over and say hi.
 - **Drag** to turn the camera, **pinch** to zoom.
@@ -40,6 +46,9 @@ npm run preview  # serves the built site, like it will be online
 ## Code map
 
 - `src/main.ts`: starts the engine, loading screen, automatic quality
+- `src/app.ts`: moves between the screens (profiles, creator, town, shop)
+- `src/profiles.ts`: saving the children's profiles
+- `src/ui/`: the 2D screens (profile picker, avatar creator, HUD, settings)
 - `src/game/game.ts`: the game loop, tapping, camera
 - `src/game/town.ts`: the town layout (where every house, tree and path goes)
 - `src/game/props.ts`: how each object is built (houses, shops, trees...)

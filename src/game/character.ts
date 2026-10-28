@@ -39,6 +39,14 @@ export interface CharacterLook {
 }
 
 export const SKIN_TONES = ["#ffe0c7", "#f6c9a4", "#e2a77e", "#c68863", "#9a6440", "#6e4429"];
+export const HAIR_COLORS = ["#2b1d14", "#4a2c1a", "#7b4a26", "#c98a3c", "#e8c170", "#1f1f2e", "#b5482f", "#e599f7"];
+export const CLOTHES_COLORS = ["#ff6b6b", "#4dabf7", "#51cf66", "#ffd43b", "#cc5de8", "#ff922b", "#20c997", "#f783ac", "#748ffc", "#ffffff"];
+export const BOTTOM_COLORS = ["#3b5bdb", "#495057", "#1c7ed6", "#e8590c", "#5f3dc4", "#2b8a3e", "#c2255c", "#f8f9fa"];
+export const EYE_COLORS = ["#5b3a29", "#2f6db5", "#3c8d5a", "#6b4f2c", "#3b3b5c"];
+export const SHOE_COLORS = ["#ff6b6b", "#343a40", "#4dabf7", "#ffffff", "#f59f00", "#9c36b5"];
+export const HAIR_STYLES: HairStyle[] = ["short", "spiky", "long", "ponytail", "buns", "curly", "bob"];
+export const OUTFITS: Outfit[] = ["tee", "hoodie", "dress", "overalls"];
+export const HATS: Hat[] = ["none", "cap", "beanie", "bow", "crown"];
 
 // Body measurements, in metres-ish. Total height about 1.6.
 const HIP_Y = 0.55;
@@ -47,11 +55,12 @@ const NECK_Y = 1.08;
 const HEAD_SIZE = 0.92;
 const HEAD_CENTER = 0.46; // above the neck
 
-let sharedMaterial: StandardMaterial | null = null;
+const sharedMaterials = new WeakMap<Scene, StandardMaterial>();
 
-/** One material for every character; colours live in the vertices. */
+/** One material for every character (per scene); colours live in the vertices. */
 function characterMaterial(scene: Scene): StandardMaterial {
-  if (sharedMaterial && sharedMaterial.getScene() === scene) return sharedMaterial;
+  const existing = sharedMaterials.get(scene);
+  if (existing) return existing;
   const mat = new StandardMaterial("character", scene);
   mat.diffuseColor = Color3.White();
   mat.specularColor = new Color3(0.18, 0.18, 0.18);
@@ -63,7 +72,7 @@ function characterMaterial(scene: Scene): StandardMaterial {
   rim.bias = 0.35;
   rim.power = 2.2;
   mat.emissiveFresnelParameters = rim;
-  sharedMaterial = mat;
+  sharedMaterials.set(scene, mat);
   return mat;
 }
 
@@ -505,20 +514,20 @@ export class Character {
 /** Some ready-made looks for townsfolk. */
 export function randomLook(random: () => number): CharacterLook {
   const pick = <T,>(list: readonly T[]): T => list[Math.floor(random() * list.length)];
-  const hairColors = ["#2b1d14", "#4a2c1a", "#7b4a26", "#c98a3c", "#e8c170", "#1f1f2e", "#b5482f"];
-  const clothes = ["#ff6b6b", "#4dabf7", "#51cf66", "#ffd43b", "#cc5de8", "#ff922b", "#20c997", "#f783ac", "#748ffc"];
-  const bottoms = ["#3b5bdb", "#495057", "#1c7ed6", "#e8590c", "#5f3dc4", "#2b8a3e", "#c2255c"];
+  const hairColors = HAIR_COLORS.slice(0, 7);
+  const clothes = CLOTHES_COLORS.slice(0, 9);
+  const bottoms = BOTTOM_COLORS.slice(0, 7);
   const hair = pick<HairStyle>(["short", "spiky", "long", "ponytail", "buns", "curly", "bob"]);
   const girlish = hair === "long" || hair === "ponytail" || hair === "buns" || hair === "bob";
   return {
     skin: pick(SKIN_TONES),
     hair,
     hairColor: pick(hairColors),
-    eyeColor: pick(["#5b3a29", "#2f6db5", "#3c8d5a", "#6b4f2c", "#3b3b5c"]),
+    eyeColor: pick(EYE_COLORS),
     outfit: pick<Outfit>(girlish ? ["dress", "tee", "overalls", "hoodie"] : ["tee", "hoodie", "overalls"]),
     top: pick(clothes),
     bottom: pick(bottoms),
-    shoes: pick(["#ff6b6b", "#343a40", "#4dabf7", "#ffffff", "#f59f00", "#9c36b5"]),
+    shoes: pick(SHOE_COLORS),
     hat: pick<Hat>(["none", "none", "none", girlish ? "bow" : "cap", "beanie", "cap"]),
     hatColor: pick(clothes),
   };
