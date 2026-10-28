@@ -81,7 +81,7 @@ Do not start a later step unless asked.
 ## Progress
 
 - [x] Step 1: Project setup
-- [ ] Step 2: 3D town
+- [x] Step 2: 3D town
 - [ ] Step 3: Profiles and avatar
 - [ ] Step 4: Market Street shop
 - [ ] Step 5: Upgrades and decoration
