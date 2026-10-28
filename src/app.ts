@@ -4,6 +4,7 @@ import { openProfilePicker } from "./ui/profilePicker";
 import { openAvatarCreator } from "./ui/avatarCreator";
 import { Hud, toast } from "./ui/hud";
 import { SettingsMenu } from "./ui/settings";
+import { openShop } from "./shop/shopScreen";
 
 /**
  * Ties the screens together:
@@ -22,8 +23,21 @@ export class App {
     settings.addButton("👤 Change player", () => this.showPicker());
     settings.onOpenChange = (open) => this.menuOpen(open);
     this.hud.onProfileTap = () => this.showPicker();
-    this.hud.onHome = () => this.current && game.goHome(this.current.home);
-    this.hud.onShop = () => game.goToShop();
+    // Using any HUD button also counts as "found out how to move", so the hint goes away.
+    this.hud.onHome = () => {
+      hint.hidden = true;
+      if (this.current) game.goHome(this.current.home);
+    };
+    this.hud.onShop = () => {
+      hint.hidden = true;
+      game.goToShop();
+    };
+    this.hud.onRunShop = () => this.runShop();
+    game.onShopNearby = (shop) => {
+      const show = shop !== null && this.current !== null;
+      if (show) hint.hidden = true;
+      this.hud.showRunShop(show);
+    };
     this.refreshHomes();
   }
 
@@ -124,6 +138,31 @@ export class App {
     this.hint.hidden = false;
     toast(isNew ? `🎉 Welcome, ${p.name}! This is your house! 🏠` : `👋 Hi, ${p.name}!`);
     setTimeout(() => this.game.cheer(), 300);
+  }
+
+  /** Run the Fruit Shop for a day, then pay the child their coins. */
+  private runShop(): void {
+    const child = this.current;
+    if (!child) return;
+    this.hud.showRunShop(false);
+    this.menuOpen(true);
+    openShop({
+      level: child.level,
+      childName: child.name,
+      onClose: (result) => {
+        this.menuOpen(false);
+        this.hud.showRunShop(true);
+        if (!result) return;
+        this.saveCurrent((p) => {
+          p.coins += result.reward;
+          p.shop.days += 1;
+          p.shop.bestProfit = Math.max(p.shop.bestProfit, result.profit);
+        });
+        this.hud.celebrateCoins();
+        this.game.cheer();
+        toast(`🪙 +${result.reward} coins! Great job, ${child.name}! 🎉`, 3200);
+      },
+    });
   }
 
   /** Save a change to the current child (coins, shop records...). */

@@ -22,7 +22,13 @@ The installed app opens full screen in landscape and works offline.
   Up to six children, each with a name, a level (⭐ Middle for 7–8, 🌟 Big for 9–10),
   their own avatar and their own house on Home Lane. Tap ✏️ on a card to change it.
   Everything is saved on this device only.
-- 🏠 walks you home, 🛒 walks you to your shop. Tap your picture (top left) to switch player.
+- 🏠 walks you home, 🛒 walks you to your shop. At the shop counter tap **🍎 Open my shop!**
+  to run the Fruit Shop for a day (about 10–15 minutes):
+  - ⭐ Middle: pick the fruit each customer asks for, add up the price, give the right change.
+  - 🌟 Big: first buy fruit from the farmer (budget 🪙 60) and set your prices, then serve
+    customers; prices that are too high make customers say no. The day ends with a profit summary.
+  - Every day ends with coins for the child, saved to their profile.
+- Tap your picture (top left) to switch player.
 
 - **Tap the ground** to walk there.
 - **Tap a person** to walk over and say hi.
@@ -48,6 +54,7 @@ npm run preview  # serves the built site, like it will be online
 - `src/main.ts`: starts the engine, loading screen, automatic quality
 - `src/app.ts`: moves between the screens (profiles, creator, town, shop)
 - `src/profiles.ts`: saving the children's profiles
+- `src/shop/`: the Fruit Shop day (`shopData.ts` has the maths rules, `shopScreen.ts` the screens)
 - `src/ui/`: the 2D screens (profile picker, avatar creator, HUD, settings)
 - `src/game/game.ts`: the game loop, tapping, camera
 - `src/game/town.ts`: the town layout (where every house, tree and path goes)

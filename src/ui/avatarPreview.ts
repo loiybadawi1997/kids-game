@@ -24,7 +24,10 @@ export class AvatarPreview {
   private dragging = false;
   private lastX = 0;
 
-  constructor(readonly canvas: HTMLCanvasElement) {
+  constructor(
+    readonly canvas: HTMLCanvasElement,
+    opts: { stage?: boolean } = {},
+  ) {
     // preserveDrawingBuffer lets us take a picture of the avatar for the profile card.
     this.engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: false }, true);
     this.engine.setHardwareScalingLevel(1 / Math.min(window.devicePixelRatio || 1, 2));
@@ -42,19 +45,7 @@ export class AvatarPreview {
     const sun = new DirectionalLight("d", new Vector3(-0.4, -0.8, 0.6), scene);
     sun.intensity = 0.7;
 
-    // A round stage to stand on.
-    const stage = CreateCylinder("stage", { height: 0.2, diameter: 2.2, tessellation: 40 }, scene);
-    stage.position.y = -0.1;
-    const stageMat = new StandardMaterial("stageMat", scene);
-    stageMat.diffuseColor = Color3.FromHexString("#ffe8a3");
-    stageMat.specularColor = new Color3(0.1, 0.1, 0.1);
-    stage.material = stageMat;
-    const rim = CreateCylinder("rim", { height: 0.12, diameter: 2.4, tessellation: 40 }, scene);
-    rim.position.y = -0.14;
-    const rimMat = new StandardMaterial("rimMat", scene);
-    rimMat.diffuseColor = Color3.FromHexString("#ffa94d");
-    rimMat.specularColor = Color3.Black();
-    rim.material = rimMat;
+    if (opts.stage ?? true) this.makeStage(scene);
 
     // Drag to spin the character.
     canvas.addEventListener("pointerdown", (e) => {
@@ -76,7 +67,7 @@ export class AvatarPreview {
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.1);
       if (this.character) {
         if (this.spin > 0) this.spin -= dt;
-        else if (!this.dragging) this.character.root.rotation.y += dt * 0.7;
+        else if (!this.dragging && this.autoTurn) this.character.root.rotation.y += dt * 0.7;
         this.character.update(dt);
       }
       scene.render();
@@ -85,6 +76,38 @@ export class AvatarPreview {
   }
 
   private onResize = () => this.engine.resize();
+
+  /** A round stage for the character to stand on. */
+  private makeStage(scene: Scene): void {
+    const stage = CreateCylinder("stage", { height: 0.2, diameter: 2.2, tessellation: 40 }, scene);
+    stage.position.y = -0.1;
+    const stageMat = new StandardMaterial("stageMat", scene);
+    stageMat.diffuseColor = Color3.FromHexString("#ffe8a3");
+    stageMat.specularColor = new Color3(0.1, 0.1, 0.1);
+    stage.material = stageMat;
+    const rim = CreateCylinder("rim", { height: 0.12, diameter: 2.4, tessellation: 40 }, scene);
+    rim.position.y = -0.14;
+    const rimMat = new StandardMaterial("rimMat", scene);
+    rimMat.diffuseColor = Color3.FromHexString("#ffa94d");
+    rimMat.specularColor = Color3.Black();
+    rim.material = rimMat;
+  }
+
+  /** Stop the slow automatic turning (the shop customer just faces you). */
+  autoTurn = true;
+
+  /** Make the character walk on the spot (when a customer arrives). */
+  setWalking(walking: boolean): void {
+    if (this.character) this.character.moving = walking ? 1 : 0;
+  }
+
+  /** Point the camera at the head and shoulders (for the shop counter). */
+  frameUpperBody(): void {
+    // Aim above the head so the customer stands low in the picture, under their speech bubble.
+    this.camera.radius = 5.6;
+    this.camera.beta = 1.5;
+    this.camera.target = new Vector3(0, 1.75, 0);
+  }
 
   /** Show a new look (rebuilds the character, keeping the way it faces). */
   show(look: CharacterLook): void {
