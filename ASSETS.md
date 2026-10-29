@@ -9,7 +9,10 @@ Every third-party asset used in the game, with its source and license.
 All 3D art is currently made in code from simple shapes, so there are no
 third-party files to credit:
 
-- Characters: `src/game/character.ts`
+- Characters (heroes): `src/game/character.ts`. Their design (archetypes, parts,
+  colours and poses) is ported from the owner's own "Forge3D – 3D Character Studio"
+  app (made in Google AI Studio with Three.js) and rebuilt for Babylon.js.
+  See `docs/CHARACTERS.md`.
 - Houses, shops, trees, fountain, pond, playground and so on: `src/game/props.ts`
 - Sky, sun and clouds: `src/game/sky.ts`
 - Surface patterns (brick, wood, roof tiles, paving, grass) are drawn by a

@@ -1,4 +1,4 @@
-import { CharacterLook } from "./game/character";
+import { CharacterLook, normalizeLook } from "./game/character";
 
 /*
  * Child profiles, saved in the browser's local storage (on this device only).
@@ -39,9 +39,11 @@ export function loadProfiles(): Profile[] {
     // Fill in anything missing from older saves.
     return list.slice(0, MAX_PROFILES).map((p) => ({
       ...p,
+      look: normalizeLook(p.look),
       coins: Number.isFinite(p.coins) ? p.coins : 0,
       shop: p.shop ?? { days: 0, bestProfit: 0 },
-      portrait: p.portrait ?? "",
+      // Pictures saved before the heroes arrived show the old look, so drop them.
+      portrait: (p.look as unknown as { archetype?: string })?.archetype ? p.portrait ?? "" : "",
     }));
   } catch {
     return [];

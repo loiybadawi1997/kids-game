@@ -92,7 +92,7 @@ export function box(scene: Scene, color: string, size: Vec, p: Placement = {}, f
  * triangles. With flat lighting each bevel catches the light, which reads
  * as a soft rounded edge.
  */
-function chamferBox(scene: Scene, w: number, h: number, d: number, r: number): Mesh {
+export function chamferBox(scene: Scene, w: number, h: number, d: number, r: number): Mesh {
   const hx = w / 2;
   const hy = h / 2;
   const hz = d / 2;

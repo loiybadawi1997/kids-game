@@ -84,6 +84,7 @@ Do not start a later step unless asked.
 - [x] Step 2: 3D town
 - [x] Extra: visual polish (sun shadows, patterns, bloom, colour grading, Low/Medium/High quality)
 - [x] Step 3: Profiles and avatar
+- [x] Extra: Forge3D heroes replace the kid avatars (see docs/CHARACTERS.md)
 - [x] Step 4: Market Street shop
 - [ ] Step 5: Upgrades and decoration
 - [ ] Step 6: Device testing

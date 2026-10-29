@@ -130,9 +130,9 @@ export class AvatarPreview {
     const cam = this.camera;
     const saved = { radius: cam.radius, beta: cam.beta, target: cam.target.clone() };
     c.root.rotation.y = Math.PI; // facing us
-    cam.radius = 3.0;
+    cam.radius = 1.7;
     cam.beta = 1.42;
-    cam.target = new Vector3(0, 1.32, 0);
+    cam.target = new Vector3(0, 1.42, 0);
     this.scene.render();
     const src = this.canvas;
     const out = document.createElement("canvas");

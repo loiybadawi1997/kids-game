@@ -1,24 +1,34 @@
 import {
-  BOTTOM_COLORS,
-  CLOTHES_COLORS,
+  ACCENT_COLORS,
+  ARCHETYPES,
+  Archetype,
+  BACK_STYLES,
+  BackStyle,
   CharacterLook,
-  EYE_COLORS,
-  HAIR_COLORS,
-  HAIR_STYLES,
-  HATS,
-  HairStyle,
-  Hat,
-  OUTFITS,
-  Outfit,
-  SHOE_COLORS,
-  SKIN_TONES,
+  FINISHES,
+  Finish,
+  GLOW_COLORS,
+  HEAD_STYLES,
+  HeadStyle,
+  POSES,
+  PRIMARY_COLORS,
+  Pose,
+  SECONDARY_COLORS,
+  SHOULDER_STYLES,
+  ShoulderStyle,
+  TORSO_STYLES,
+  TorsoStyle,
+  WEAPON_STYLES,
+  WeaponStyle,
+  normalizeLook,
+  presetLook,
   randomLook,
 } from "../game/character";
 import { Level, Profile } from "../profiles";
 import { AvatarPreview } from "./avatarPreview";
 
 /*
- * The avatar creator: a turning 3D preview on the left, simple picture
+ * The hero creator: a turning 3D preview on the left, simple picture
  * buttons on the right. Words are short and every button has an icon,
  * so a 7-year-old can use it.
  */
@@ -30,25 +40,23 @@ export interface CreatorResult {
   portrait: string;
 }
 
-const HAIR_LABELS: Record<HairStyle, string> = {
-  short: "✂️ Short",
-  spiky: "⚡ Spiky",
-  long: "🌊 Long",
-  ponytail: "🎀 Pony",
-  buns: "🍡 Buns",
-  curly: "🌀 Curly",
-  bob: "💫 Bob",
-};
-const OUTFIT_LABELS: Record<Outfit, string> = { tee: "👕 T-shirt", hoodie: "🧥 Hoodie", dress: "👗 Dress", overalls: "👖 Overalls" };
-const HAT_LABELS: Record<Hat, string> = { none: "🚫 None", cap: "🧢 Cap", beanie: "🧶 Beanie", bow: "🎀 Bow", crown: "👑 Crown" };
+const HERO_LABELS: Record<Archetype, string> = { mecha: "🤖 Mecha", knight: "🛡️ Knight", cyberpunk: "😎 Cyber", sorcerer: "🧙 Wizard", bot: "🔵 Bot" };
+const POSE_LABELS: Record<Pose, string> = { idle: "🙂 Relaxed", heroic: "🦸 Heroic", salute: "🫡 Salute", combat: "💪 Ready" };
+const HEAD_LABELS: Record<HeadStyle, string> = { visor: "🥽 Visor", horned_helm: "🐂 Horns", cyber_goggles: "👓 Goggles", hooded_cowl: "🧙 Hood", bot_dome: "🔵 Dome" };
+const TORSO_LABELS: Record<TorsoStyle, string> = { cyber_reactor: "⚡ Reactor", chiseled_cuirass: "🛡️ Armour", tactical_vest: "🦺 Vest", robed_chest: "👘 Robe", orb_core: "⚪ Orb" };
+const SHOULDER_LABELS: Record<ShoulderStyle, string> = { blade_wings: "🪽 Wings", spiked_pauldrons: "⛰️ Spikes", curved_guards: "🌙 Guards", compact_joints: "🔩 Small", none: "🚫 None" };
+const BACK_LABELS: Record<BackStyle, string> = { twin_thrusters: "🚀 Jets", energy_cape: "🦸 Cape", power_battery: "🔋 Battery", floating_orbs: "🔮 Orbs", none: "🚫 None" };
+const WEAPON_LABELS: Record<WeaponStyle, string> = { plasma_sword: "⚔️ Sword", pulse_blaster: "🔫 Blaster", crystal_staff: "🪄 Staff", aegis_shield: "🛡️ Shield", none: "🚫 None" };
+const FINISH_LABELS: Record<Finish, string> = { brushed_metal: "🔧 Metal", matte_armor: "🧱 Matte", gloss_car: "✨ Shiny", carbon_weave: "🕸️ Carbon", hex_tech: "⬡ Hex" };
 
-type Tab = "me" | "face" | "hair" | "clothes" | "hat";
+type Tab = "me" | "hero" | "head" | "body" | "gear" | "colours";
 const TABS: [Tab, string][] = [
   ["me", "✏️ Me"],
-  ["face", "🙂 Face"],
-  ["hair", "💇 Hair"],
-  ["clothes", "👕 Clothes"],
-  ["hat", "🧢 Hat"],
+  ["hero", "🦸 Hero"],
+  ["head", "🪖 Head"],
+  ["body", "🦺 Body"],
+  ["gear", "🎒 Gear"],
+  ["colours", "🎨 Colours"],
 ];
 
 export function openAvatarCreator(opts: {
@@ -58,7 +66,7 @@ export function openAvatarCreator(opts: {
   onDelete?: () => void;
 }): void {
   const editing = opts.profile;
-  const look: CharacterLook = editing ? { ...editing.look } : randomLook(Math.random);
+  const look: CharacterLook = editing ? normalizeLook(editing.look) : randomLook(Math.random);
   let name = editing?.name ?? "";
   let level: Level = editing?.level ?? "middle";
   let tab: Tab = "me";
@@ -197,20 +205,35 @@ export function openAvatarCreator(opts: {
         });
         row.append(b);
       }
-    } else if (tab === "face") {
-      swatches("🙂 Skin", SKIN_TONES, () => look.skin, (c) => (look.skin = c));
-      swatches("👀 Eyes", EYE_COLORS, () => look.eyeColor, (c) => (look.eyeColor = c));
-    } else if (tab === "hair") {
-      options("💇 Hair style", HAIR_STYLES, HAIR_LABELS, () => look.hair, (v) => (look.hair = v));
-      swatches("🎨 Hair colour", HAIR_COLORS, () => look.hairColor, (c) => (look.hairColor = c));
-    } else if (tab === "clothes") {
-      options("👕 Clothes", OUTFITS, OUTFIT_LABELS, () => look.outfit, (v) => (look.outfit = v));
-      swatches("🎨 Top", CLOTHES_COLORS, () => look.top, (c) => (look.top = c));
-      swatches("🎨 Trousers", BOTTOM_COLORS, () => look.bottom, (c) => (look.bottom = c));
-      swatches("👟 Shoes", SHOE_COLORS, () => look.shoes, (c) => (look.shoes = c));
+    } else if (tab === "hero") {
+      const row = section("🦸 Pick a hero");
+      for (const a of ARCHETYPES) {
+        const b = document.createElement("button");
+        b.className = "choice" + (look.archetype === a ? " selected" : "");
+        b.textContent = HERO_LABELS[a];
+        b.addEventListener("click", () => {
+          Object.assign(look, presetLook(a, look.pose));
+          update();
+          preview.wave();
+          renderBody();
+        });
+        row.append(b);
+      }
+      options("🧍 How I stand", POSES, POSE_LABELS, () => look.pose, (v) => (look.pose = v));
+    } else if (tab === "head") {
+      options("🪖 Head", HEAD_STYLES, HEAD_LABELS, () => look.headStyle, (v) => (look.headStyle = v));
+    } else if (tab === "body") {
+      options("🦺 Body", TORSO_STYLES, TORSO_LABELS, () => look.torsoStyle, (v) => (look.torsoStyle = v));
+      options("💪 Shoulders", SHOULDER_STYLES, SHOULDER_LABELS, () => look.shoulderStyle, (v) => (look.shoulderStyle = v));
+    } else if (tab === "gear") {
+      options("🎒 On my back", BACK_STYLES, BACK_LABELS, () => look.backStyle, (v) => (look.backStyle = v));
+      options("✋ In my hands", WEAPON_STYLES, WEAPON_LABELS, () => look.weaponStyle, (v) => (look.weaponStyle = v));
     } else {
-      options("🧢 Hat", HATS, HAT_LABELS, () => look.hat, (v) => (look.hat = v));
-      swatches("🎨 Hat colour", CLOTHES_COLORS, () => look.hatColor, (c) => (look.hatColor = c));
+      swatches("🎨 Main colour", PRIMARY_COLORS, () => look.primaryColor, (c) => (look.primaryColor = c));
+      swatches("🎨 Second colour", SECONDARY_COLORS, () => look.secondaryColor, (c) => (look.secondaryColor = c));
+      swatches("🎨 Little details", ACCENT_COLORS, () => look.accentColor, (c) => (look.accentColor = c));
+      swatches("✨ Glow", GLOW_COLORS, () => look.glowColor, (c) => (look.glowColor = c));
+      options("🪞 Finish", FINISHES, FINISH_LABELS, () => look.finish, (v) => (look.finish = v));
     }
   };
 

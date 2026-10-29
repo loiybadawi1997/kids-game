@@ -20,7 +20,8 @@ The installed app opens full screen in landscape and works offline.
 
 - When the game opens, pick **who is playing** (or tap ➕ to make a new player).
   Up to six children, each with a name, a level (⭐ Middle for 7–8, 🌟 Big for 9–10),
-  their own avatar and their own house on Home Lane. Tap ✏️ on a card to change it.
+  their own hero avatar (mecha, knight, cyberpunk, wizard or bot, see `docs/CHARACTERS.md`)
+  and their own house on Home Lane. Tap ✏️ on a card to change it.
   Everything is saved on this device only.
 - 🏠 walks you home, 🛒 walks you to your shop. At the shop counter tap **🍎 Open my shop!**
   to run the Fruit Shop for a day (about 10–15 minutes):
@@ -59,7 +60,7 @@ npm run preview  # serves the built site, like it will be online
 - `src/game/game.ts`: the game loop, tapping, camera
 - `src/game/town.ts`: the town layout (where every house, tree and path goes)
 - `src/game/props.ts`: how each object is built (houses, shops, trees...)
-- `src/game/character.ts`: the characters and their animations
+- `src/game/character.ts`: the heroes (parts, colours, skeleton and animations)
 - `src/game/townsfolk.ts`: the people who live in town and what they say
 - `src/game/navGrid.ts`: where characters can walk, and path finding
 - `src/game/meshKit.ts`: helpers that merge shapes so the game stays fast

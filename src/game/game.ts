@@ -7,7 +7,7 @@ import { Plane } from "@babylonjs/core/Maths/math.plane";
 import { PointerEventTypes } from "@babylonjs/core/Events/pointerEvents";
 // Needed for scene.createPickingRay() (Babylon only includes features we import).
 import "@babylonjs/core/Culling/ray";
-import { Character, CharacterLook } from "./character";
+import { Character, CharacterLook, presetLook } from "./character";
 import { BlobShadows, TapMarker } from "./effects";
 import { Sky, createSky } from "./sky";
 import { ShopInfo, TownInfo, buildTown } from "./town";
@@ -18,18 +18,7 @@ import { Graphics, QualitySetting, guessQuality } from "./graphics";
 import { SpeechBubbles } from "../ui/speechBubbles";
 
 /** Used before a child has picked a profile (and for the start screen backdrop). */
-export const DEFAULT_LOOK: CharacterLook = {
-  skin: "#e2a77e",
-  hair: "spiky",
-  hairColor: "#4a2c1a",
-  eyeColor: "#5b3a29",
-  outfit: "hoodie",
-  top: "#ff6b6b",
-  bottom: "#3b5bdb",
-  shoes: "#ffffff",
-  hat: "none",
-  hatColor: "#ffd43b",
-};
+export const DEFAULT_LOOK: CharacterLook = presetLook("mecha");
 
 /** The shop the children run (Market Street, first shop on the north side). */
 export const PLAYER_SHOP_KIND = "fruit";
@@ -135,7 +124,7 @@ export class Game {
   }
 
   private characterMeshes(c: Character) {
-    const meshes = c.root.getChildMeshes();
+    const meshes = c.meshes();
     for (const m of meshes) m.receiveShadows = true;
     return meshes;
   }

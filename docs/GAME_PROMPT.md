@@ -5,7 +5,7 @@ This file has two parts:
 1. **Summary**: what the game is and what is built so far.
 2. **Full prompt**: a complete, self-contained brief you can give to a developer or an AI to build (or rebuild) the game.
 
-Characters are **not** described here. They are defined in **`Characters.md`** (attached separately), which overrides anything in this file about how characters look, move or are customised.
+Characters are **not** described here. They are defined in **`docs/CHARACTERS.md`** (attach it as `Characters.md`), which overrides anything in this file about how characters look, move or are customised.
 
 ---
 

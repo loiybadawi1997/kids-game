@@ -1,6 +1,6 @@
 import { Scene } from "@babylonjs/core/scene";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
-import { Character, CharacterLook, randomLook } from "./character";
+import { Character, CharacterLook, presetLook, randomLook } from "./character";
 import { NavGrid } from "./navGrid";
 import { Walker } from "./walker";
 
@@ -109,8 +109,8 @@ export function createTownsfolk(
   SHOPKEEPERS.forEach((p, i) => {
     const front = shopFronts[i * 3 % shopFronts.length];
     const look = randomLook(random);
-    look.outfit = "overalls";
-    look.hat = "none";
+    // Shopkeepers are friendly bots.
+    Object.assign(look, presetLook("bot"), { primaryColor: look.primaryColor, glowColor: look.glowColor });
     const c = new Character(scene, look, p.name);
     c.root.position.set(front.x, 0, front.z);
     people.push(new Townsperson(c, p.name, p.lines, nav, false, random, hangouts, front.rotY));
