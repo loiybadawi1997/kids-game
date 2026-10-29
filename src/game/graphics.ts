@@ -167,6 +167,7 @@ export class Graphics {
       sg.setDarkness(0.38); // soft, friendly shadows rather than black ones
       sg.transparencyShadow = false;
       const list = sg.getShadowMap()!.renderList!;
+      this.casters = this.casters.filter((m) => !m.isDisposed());
       list.push(...this.solid, ...this.casters);
       for (const m of [...this.solid, ...this.receivers]) m.receiveShadows = true;
       this.sun.autoUpdateExtends = true;

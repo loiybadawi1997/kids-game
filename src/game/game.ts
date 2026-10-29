@@ -14,8 +14,11 @@ import { ShopInfo, TownInfo, buildTown } from "./town";
 import { Townsperson, createTownsfolk } from "./townsfolk";
 import { Walker } from "./walker";
 import { makeRandom } from "./props";
+import { Kit } from "./kit";
+import { createVertexColorMaterial } from "./meshKit";
 import { Graphics, QualitySetting, guessQuality } from "./graphics";
 import { SpeechBubbles } from "../ui/speechBubbles";
+import { TouchControls } from "../ui/joystick";
 
 /** Used before a child has picked a profile (and for the start screen backdrop). */
 export const DEFAULT_LOOK: CharacterLook = presetLook("mecha");
@@ -35,6 +38,18 @@ export class Game {
   inputEnabled = true;
   /** When true the camera slowly circles the town (behind the start screen). */
   attract = false;
+  /** The on-screen joystick and jump button. */
+  readonly controls = new TouchControls();
+  // Jumping
+  private jumpHeight = 0;
+  private jumpSpeed = 0;
+  // Camera: the distance the child chose (pinch), and when they last turned it by hand.
+  private wantedRadius = 9.5;
+  private lastSetRadius = 9.5;
+  private wantedBeta = 1.02;
+  private lastSetBeta = 1.02;
+  private lastManualTurn = -10;
+  private clock = 0;
   /** Called when the player is standing at their shop's counter (or walks away: null). */
   onShopNearby: ((shop: ShopInfo | null) => void) | null = null;
 
@@ -50,12 +65,24 @@ export class Game {
   private playerShop: ShopInfo;
   private nearShop = false;
 
-  constructor(
+  /** Load the model kit, then build the game. */
+  static async create(engine: Engine, canvas: HTMLCanvasElement, qualitySetting: QualitySetting): Promise<Game> {
+    const scene = new Scene(engine);
+    // Kenney/Quaternius models are drawn from both sides (some of their faces point the other way).
+    const kitMaterial = createVertexColorMaterial(scene, "kit", 0);
+    kitMaterial.backFaceCulling = false;
+    kitMaterial.twoSidedLighting = true;
+    const kit = await Kit.load(scene, kitMaterial);
+    return new Game(engine, canvas, qualitySetting, scene, kit);
+  }
+
+  private constructor(
     private engine: Engine,
     private canvas: HTMLCanvasElement,
     qualitySetting: QualitySetting,
+    scene: Scene,
+    kit: Kit,
   ) {
-    const scene = new Scene(engine);
     this.scene = scene;
     // Small speed-up: we work out taps ourselves, so Babylon doesn't need to test meshes under the finger.
     scene.skipPointerMovePicking = true;
@@ -64,9 +91,13 @@ export class Game {
 
     const random = makeRandom(42);
     this.sky = createSky(scene, random);
-    const town = buildTown(scene);
+    const town = buildTown(scene, kit);
     this.town = town;
     this.playerShop = town.shops.find((s) => s.kind === PLAYER_SHOP_KIND)!;
+
+    // Heroes are built smooth and shiny unless the device is on Low quality.
+    const startQuality = qualitySetting === "auto" ? guessQuality(engine) : qualitySetting;
+    Character.detail = startQuality === "low" ? "simple" : "rich";
 
     // --- The player ---
     this.player = new Character(scene, DEFAULT_LOOK, "player");
@@ -87,11 +118,11 @@ export class Game {
     this.bubbles = new SpeechBubbles(document.getElementById("bubbles")!, (p) => this.toScreen(p));
 
     // --- Camera: follows the player. Drag to turn it, pinch to zoom. ---
-    const cam = new ArcRotateCamera("camera", -Math.PI / 2, 0.82, 14, this.player.position.add(new Vector3(0, 1, 0)), scene);
-    cam.lowerRadiusLimit = 7;
-    cam.upperRadiusLimit = 22;
-    cam.lowerBetaLimit = 0.55;
-    cam.upperBetaLimit = 1.0;
+    const cam = new ArcRotateCamera("camera", -Math.PI / 2, 1.02, 9.5, this.player.position.add(new Vector3(0, 1.2, 0)), scene);
+    cam.lowerRadiusLimit = 2.2; // the camera may come this close to dodge a building (pinch stops at 5)
+    cam.upperRadiusLimit = 18;
+    cam.lowerBetaLimit = 0.6;
+    cam.upperBetaLimit = 1.3;
     cam.angularSensibilityX = 1400;
     cam.angularSensibilityY = 2600;
     cam.pinchPrecision = 30;
@@ -107,15 +138,18 @@ export class Game {
 
     // --- Graphics quality (shadows, patterns, bloom...) ---
     this.graphics = new Graphics(engine, scene, cam, this.sky.sun, town.solidMeshes, [town.ground], town.patternMaterials, qualitySetting);
-    this.graphics.addCaster(...this.characterMeshes(this.player));
-    for (const p of this.people) {
-      const meshes = this.characterMeshes(p.character);
-      this.graphics.addCaster(...meshes);
-      // Townsfolk far from the camera are hidden (they'd be tiny dots in the fog anyway).
-      for (const m of meshes) (m as Mesh).addLODLevel(45, null);
-    }
-    this.graphics.whenChanged((q) => this.blobs.setVisible(q === "low"));
-    this.graphics.apply(qualitySetting === "auto" ? guessQuality(engine) : qualitySetting);
+    this.track(this.player, false);
+    for (const p of this.people) this.track(p.character, true);
+    this.graphics.whenChanged((q) => {
+      this.blobs.setVisible(q === "low");
+      // Rebuild every hero smooth (Medium/High) or simple (Low).
+      Character.detail = q === "low" ? "simple" : "rich";
+      this.player.setDetail(Character.detail);
+      for (const p of this.people) p.character.setDetail(Character.detail);
+    });
+    this.graphics.apply(startQuality);
+
+    this.controls.onJump = () => this.jump();
 
     // --- Tapping ---
     scene.onPointerObservable.add((info) => {
@@ -123,10 +157,16 @@ export class Game {
     });
   }
 
-  private characterMeshes(c: Character) {
-    const meshes = c.meshes();
-    for (const m of meshes) m.receiveShadows = true;
-    return meshes;
+  /** Give a hero shadows (and, for townsfolk, hide them when far away), now and whenever it is rebuilt. */
+  private track(c: Character, townsperson: boolean): void {
+    const setup = (m: Mesh) => {
+      m.receiveShadows = true;
+      this.graphics.addCaster(m);
+      // Townsfolk far from the camera are hidden (they'd be tiny dots in the fog anyway).
+      if (townsperson) m.addLODLevel(45, null);
+    };
+    c.meshes().forEach(setup);
+    c.onMeshChanged = setup;
   }
 
   /** Called once, the first time the child taps (used to hide the hint). */
@@ -145,7 +185,7 @@ export class Game {
     this.playerWalker.heading = Math.PI;
     this.blobs.replace(old, this.player);
     old.dispose();
-    this.graphics.addCaster(...this.characterMeshes(this.player));
+    this.track(this.player, false);
     this.camera.target.set(pos.x, 1, pos.z);
     this.nearShop = false;
   }
@@ -204,9 +244,97 @@ export class Game {
     this.bubbles.show(person.character, person.name, person.nextLine());
   }
 
+  /** Jump (only from the ground). */
+  jump(): void {
+    if (!this.inputEnabled || this.jumpHeight > 0.01) return;
+    this.jumpSpeed = 7;
+  }
+
   /** Make the player wave (used when a menu wants a happy moment). */
   cheer(): void {
     this.player.wave();
+  }
+
+  /**
+   * The camera glides after the hero and, while they move, swings round
+   * behind them. If a building gets between the camera and the hero, the
+   * camera moves in closer so the hero is never hidden.
+   */
+  private updateCamera(dt: number, moving: boolean): void {
+    const cam = this.camera;
+    if (this.attract) {
+      cam.alpha += dt * 0.06;
+    } else {
+      if (Math.abs(cam.inertialAlphaOffset) > 1e-4 || Math.abs(cam.inertialBetaOffset) > 1e-4) this.lastManualTurn = this.clock;
+      if (moving && this.clock - this.lastManualTurn > 1.2) {
+        const h = this.playerWalker.heading;
+        const behind = Math.atan2(-Math.cos(h), -Math.sin(h));
+        let diff = behind - cam.alpha;
+        diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+        cam.alpha += diff * Math.min(1, dt * 2.2);
+      }
+    }
+
+    const target = cam.target;
+    const goal = this.player.position.add(new Vector3(0, 1.2, 0));
+    goal.y = 1.2 + this.jumpHeight * 0.5;
+    target.addInPlace(goal.subtract(target).scale(Math.min(1, dt * 6)));
+
+    // Pinching and dragging set the distance and height the child wants.
+    if (Math.abs(cam.radius - this.lastSetRadius) > 0.05) this.wantedRadius = Math.max(5, Math.min(18, cam.radius));
+    if (Math.abs(cam.beta - this.lastSetBeta) > 0.01) this.wantedBeta = cam.beta;
+    // If a building is in the way, try looking from a bit higher, then from a bit to the side;
+    // only move closer if nothing else gives a clear view.
+    const want = Math.min(this.wantedRadius, 6.5);
+    let best = { alpha: cam.alpha, beta: this.wantedBeta, clear: -1 };
+    search: for (const turn of [0, 0.45, -0.45, 0.9, -0.9, 1.4, -1.4]) {
+      for (const b of [this.wantedBeta, 0.86, 0.7]) {
+        if (b > this.wantedBeta + 1e-3) continue;
+        const clear = this.clearDistance(target, cam.alpha + turn, b, this.wantedRadius);
+        if (clear > best.clear + 0.3) best = { alpha: cam.alpha + turn, beta: b, clear };
+        if (clear >= want) break search;
+      }
+    }
+    let turnBy = best.alpha - cam.alpha;
+    turnBy = Math.atan2(Math.sin(turnBy), Math.cos(turnBy));
+    cam.alpha += turnBy * Math.min(1, dt * 3);
+    cam.beta += (best.beta - cam.beta) * Math.min(1, dt * 4);
+    cam.radius += (best.clear - cam.radius) * Math.min(1, dt * (best.clear < cam.radius ? 8 : 3));
+    this.lastSetRadius = cam.radius;
+    this.lastSetBeta = cam.beta;
+  }
+
+  /** How far the camera can be from the target before a building blocks the view. */
+  private clearDistance(target: Vector3, alpha: number, beta: number, radius: number): number {
+    const dir = new Vector3(Math.cos(alpha) * Math.sin(beta), Math.cos(beta), Math.sin(alpha) * Math.sin(beta));
+    let best = radius;
+    for (const b of this.town.buildings) {
+      // Look at the camera line in the building's own frame (an axis-aligned box there).
+      const cos = Math.cos(b.rotY);
+      const sin = Math.sin(b.rotY);
+      const ox = target.x - b.x;
+      const oz = target.z - b.z;
+      const lx = ox * cos - oz * sin;
+      const lz = ox * sin + oz * cos;
+      const dx = dir.x * cos - dir.z * sin;
+      const dz = dir.x * sin + dir.z * cos;
+      let t0 = 0;
+      let t1 = radius;
+      for (const [o, d, half] of [[lx, dx, b.width / 2], [lz, dz, b.depth / 2]]) {
+        if (Math.abs(d) < 1e-6) {
+          if (Math.abs(o) > half) t1 = -1;
+          continue;
+        }
+        const a = (-half - o) / d;
+        const c = (half - o) / d;
+        t0 = Math.max(t0, Math.min(a, c));
+        t1 = Math.min(t1, Math.max(a, c));
+      }
+      if (t1 < t0 || t1 <= 0) continue;
+      // Only if the line is still below the roof where it enters the building.
+      if (target.y + dir.y * t0 < b.height) best = Math.min(best, Math.max(2.2, t0 - 0.6));
+    }
+    return best;
   }
 
   /** Converts a 3D point to CSS pixels on the screen (or null if behind the camera). */
@@ -222,7 +350,34 @@ export class Game {
 
   update(): void {
     const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.1);
-    this.playerWalker.update(dt);
+    this.clock += dt;
+
+    // Joystick: walk relative to where the camera is looking. Otherwise follow the tapped path.
+    const stick = this.controls.vector;
+    const stickAmount = this.inputEnabled ? Math.min(1, Math.hypot(stick.x, stick.y)) : 0;
+    if (stickAmount > 0.01) {
+      const forward = this.player.position.subtract(this.camera.position);
+      forward.y = 0;
+      forward.normalize();
+      const right = new Vector3(forward.z, 0, -forward.x);
+      const dir = forward.scale(stick.y).add(right.scale(stick.x)).normalize();
+      this.playerWalker.drive(dir.x, dir.z, stickAmount, dt);
+      if (this.onFirstTap) {
+        this.onFirstTap();
+        this.onFirstTap = null;
+      }
+    } else {
+      this.playerWalker.update(dt);
+    }
+
+    // Jumping: up, then gravity brings the hero back down.
+    if (this.jumpSpeed !== 0 || this.jumpHeight > 0) {
+      this.jumpSpeed -= 20 * dt;
+      this.jumpHeight = Math.max(0, this.jumpHeight + this.jumpSpeed * dt);
+      if (this.jumpHeight === 0) this.jumpSpeed = 0;
+    }
+    this.player.root.position.y = this.jumpHeight;
+    this.player.airborne += ((this.jumpHeight > 0.05 ? 1 : 0) - this.player.airborne) * Math.min(1, dt * 14);
     this.player.update(dt);
     for (const p of this.people) p.update(dt, this.town.nav);
     this.blobs.update();
@@ -230,12 +385,7 @@ export class Game {
     this.sky.update(dt);
     this.town.update(dt);
 
-    if (this.attract) this.camera.alpha += dt * 0.06;
-
-    // Camera glides after the player.
-    const target = this.camera.target;
-    const goal = this.player.position.add(new Vector3(0, 1.0, 0));
-    target.addInPlace(goal.subtract(target).scale(Math.min(1, dt * 5)));
+    this.updateCamera(dt, stickAmount > 0.01 || this.playerWalker.isWalking);
 
     // Is the player standing at their shop?
     const near = Vector3.Distance(this.player.position, this.playerShop.keeper) < 2.6 && !this.playerWalker.isWalking;

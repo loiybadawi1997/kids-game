@@ -34,7 +34,7 @@ export default defineConfig({
       },
       workbox: {
         // Cache everything the game needs so it works offline after the first visit.
-        globPatterns: ["**/*.{js,css,html,svg,png,glb,json}"],
+        globPatterns: ["**/*.{js,css,html,svg,png,glb,json,bin}"],
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
       },
     }),

@@ -90,7 +90,35 @@ export class Walker {
       done?.();
     }
 
-    // Smoothly turn towards the heading (taking the short way round).
+    this.turn(dt);
+  }
+
+  /**
+   * Walk in a direction (from the joystick). `amount` is how far the stick is
+   * pushed (0 to 1). Characters slide along walls instead of walking through them.
+   */
+  drive(dirX: number, dirZ: number, amount: number, dt: number): void {
+    this.route = [];
+    this.onArrive = null;
+    const pos = this.character.position;
+    const step = this.speed * 1.15 * amount * dt;
+    const nx = pos.x + dirX * step;
+    const nz = pos.z + dirZ * step;
+    if (this.nav.isWalkable(nx, nz)) {
+      pos.x = nx;
+      pos.z = nz;
+    } else if (this.nav.isWalkable(nx, pos.z)) {
+      pos.x = nx;
+    } else if (this.nav.isWalkable(pos.x, nz)) {
+      pos.z = nz;
+    }
+    this.heading = Math.atan2(dirX, dirZ);
+    this.character.moving = amount * 1.15;
+    this.turn(dt);
+  }
+
+  /** Smoothly turn towards the heading (taking the short way round). */
+  private turn(dt: number): void {
     const root = this.character.root;
     let diff = this.heading - root.rotation.y;
     diff = Math.atan2(Math.sin(diff), Math.cos(diff));

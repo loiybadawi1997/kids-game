@@ -53,6 +53,8 @@ export class App {
   menuOpen(open: boolean): void {
     this.menus = Math.max(0, this.menus + (open ? 1 : -1));
     this.game.inputEnabled = this.menus === 0;
+    // The joystick only shows while walking around town.
+    this.game.controls.show(this.menus === 0 && this.current !== null);
   }
 
   private refreshHomes(): void {
@@ -135,6 +137,7 @@ export class App {
     this.game.attract = false;
     this.game.setPlayer(p.look, p.home);
     this.hud.show(p);
+    this.game.controls.show(this.menus === 0);
     this.hint.hidden = false;
     toast(isNew ? `🎉 Welcome, ${p.name}! This is your house! 🏠` : `👋 Hi, ${p.name}!`);
     setTimeout(() => this.game.cheer(), 300);

@@ -31,7 +31,8 @@ The installed app opens full screen in landscape and works offline.
   - Every day ends with coins for the child, saved to their profile.
 - Tap your picture (top left) to switch player.
 
-- **Tap the ground** to walk there.
+- **Move the joystick** (bottom left) to walk, **⬆️ Jump** (bottom right) to jump, or **tap the ground** to walk there.
+  The camera swings round behind your hero as they move, and lifts or turns when a building is in the way.
 - **Tap a person** to walk over and say hi.
 - **Drag** to turn the camera, **pinch** to zoom.
 
@@ -63,6 +64,8 @@ npm run preview  # serves the built site, like it will be online
 - `src/game/character.ts`: the heroes (parts, colours, skeleton and animations)
 - `src/game/townsfolk.ts`: the people who live in town and what they say
 - `src/game/navGrid.ts`: where characters can walk, and path finding
+- `src/game/kit.ts`: loads the Kenney/Quaternius models (`public/models/`); `tools/import-models.mjs` makes that file
+- `src/game/animals.ts`: the pets and wild animals walking around town
 - `src/game/meshKit.ts`: helpers that merge shapes so the game stays fast
 - `src/game/graphics.ts`: Low / Medium / High quality (shadows, bloom, patterns)
 - `src/game/patterns.ts`: brick, wood and tile patterns drawn by the GPU
