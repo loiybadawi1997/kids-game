@@ -16,7 +16,7 @@ A 3D educational town game for a family's children aged 7 to 10. It is a value-d
 Must run well on iPhones, Android phones and Android tablets.
 
 - Landscape orientation only.
-- Touch first: tap to move, tap to interact. No joysticks, no complex gestures, no keyboard requirement.
+- Touch first: tap to move, tap to interact. An on-screen joystick and jump button are also offered (the owner asked for them); tap-to-walk must always keep working. No complex gestures, no keyboard requirement.
 - Must stay smooth on mid-range and older Android phones. Keep polygon counts, texture sizes and draw calls low. Test performance early and often.
 - Large touch targets (at least 48px), readable text on small phone screens.
 

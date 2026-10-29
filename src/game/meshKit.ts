@@ -88,6 +88,75 @@ export function box(scene: Scene, color: string, size: Vec, p: Placement = {}, f
 }
 
 /**
+ * A box with truly rounded, smoothly shaded edges (like the Forge3D armour
+ * plates). Each face is a small grid that is bent round near the edges.
+ * `steps` is how many rows go round each curved edge. UVs are laid out in
+ * metres-ish (`uvScale` units per texture repeat) so textures tile evenly.
+ */
+export function roundedBox(scene: Scene, w: number, h: number, d: number, r: number, steps = 2, uvScale = 0.3): Mesh {
+  const half = [w / 2, h / 2, d / 2];
+  r = Math.min(r, ...half.map((v) => v * 0.95));
+  const inner = half.map((v) => v - r);
+  // Grid stops along one axis of a face: the flat middle plus `steps` rows around each edge.
+  const stops = (axis: number) => {
+    const s: number[] = [];
+    for (let k = 0; k <= steps; k++) s.push(-half[axis] + (r * k) / steps);
+    for (let k = 0; k <= steps; k++) s.push(inner[axis] + (r * k) / steps);
+    return s;
+  };
+  const positions: number[] = [];
+  const normals: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
+  // Each face: [normal axis, sign, u axis, v axis]
+  const faces: [number, number, number, number][] = [
+    [0, 1, 2, 1], [0, -1, 2, 1], [1, 1, 0, 2], [1, -1, 0, 2], [2, 1, 0, 1], [2, -1, 0, 1],
+  ];
+  for (const [n, sign, ua, va] of faces) {
+    const us = stops(ua);
+    const vs = stops(va);
+    const base = positions.length / 3;
+    for (const v of vs) {
+      for (const u of us) {
+        const p = [0, 0, 0];
+        p[n] = sign * half[n];
+        p[ua] = u;
+        p[va] = v;
+        // Push the point onto the rounded surface around the inner box.
+        const c = p.map((x, i) => Math.max(-inner[i], Math.min(inner[i], x)));
+        const dir = p.map((x, i) => x - c[i]);
+        const len = Math.hypot(dir[0], dir[1], dir[2]) || 1;
+        const nn = dir.map((x) => x / len);
+        positions.push(c[0] + nn[0] * r, c[1] + nn[1] * r, c[2] + nn[2] * r);
+        normals.push(nn[0], nn[1], nn[2]);
+        uvs.push(u / uvScale, v / uvScale);
+      }
+    }
+    const cols = us.length;
+    for (let j = 0; j < vs.length - 1; j++) {
+      for (let i = 0; i < cols - 1; i++) {
+        const a = base + j * cols + i;
+        const b = a + 1;
+        const c2 = a + cols;
+        const d2 = c2 + 1;
+        // Wind so the face points outwards (matches Babylon's front faces).
+        const flip = (n === 1 ? -sign : sign) > 0;
+        if (flip) indices.push(a, c2, b, b, c2, d2);
+        else indices.push(a, b, c2, b, d2, c2);
+      }
+    }
+  }
+  const data = new VertexData();
+  data.positions = positions;
+  data.normals = normals;
+  data.uvs = uvs;
+  data.indices = indices;
+  const mesh = new Mesh("roundBox", scene);
+  data.applyToMesh(mesh);
+  return mesh;
+}
+
+/**
  * Builds a box whose 12 edges are cut at 45° and 8 corners are small
  * triangles. With flat lighting each bevel catches the light, which reads
  * as a soft rounded edge.

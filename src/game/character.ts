@@ -4,6 +4,11 @@ import { TransformNode } from "@babylonjs/core/Meshes/transformNode";
 import { VertexData } from "@babylonjs/core/Meshes/mesh.vertexData";
 import { VertexBuffer } from "@babylonjs/core/Buffers/buffer";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
+import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
+import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTexture";
+import { BaseTexture } from "@babylonjs/core/Materials/Textures/baseTexture";
+import { Texture } from "@babylonjs/core/Materials/Textures/texture";
+import { ReflectionProbe } from "@babylonjs/core/Probes/reflectionProbe";
 import { Material } from "@babylonjs/core/Materials/material";
 import { MaterialDefines } from "@babylonjs/core/Materials/materialDefines";
 import { MaterialPluginBase } from "@babylonjs/core/Materials/materialPluginBase";
@@ -20,7 +25,7 @@ import { CreateTorus } from "@babylonjs/core/Meshes/Builders/torusBuilder";
 import { CreateTube } from "@babylonjs/core/Meshes/Builders/tubeBuilder";
 import { CreateLathe } from "@babylonjs/core/Meshes/Builders/latheBuilder";
 import { CreatePolyhedron } from "@babylonjs/core/Meshes/Builders/polyhedronBuilder";
-import { chamferBox } from "./meshKit";
+import { chamferBox, roundedBox } from "./meshKit";
 
 /*
  * The heroes of Kids Town, based on the "Forge3D Character Studio" design:
@@ -231,6 +236,178 @@ function heroMaterial(scene: Scene, name: string, finish: Finish): StandardMater
 }
 
 // ---------------------------------------------------------------------
+// "Rich" heroes (Medium/High quality and the creator): real metal materials
+// that reflect a bright studio, like the original Forge3D studio.
+// ---------------------------------------------------------------------
+
+/** The kinds of surface on a hero. Each gets its own metal material. */
+type Slot = "primary" | "secondary" | "accent" | "chassis" | "joint" | "glow" | "blade";
+const SLOTS: Slot[] = ["primary", "secondary", "accent", "chassis", "joint", "glow", "blade"];
+
+/** Metal and roughness per finish (from the Forge3D presets). */
+const FINISH_PBR: Record<Finish, { metal: number; rough: number }> = {
+  gloss_car: { metal: 0.6, rough: 0.12 },
+  brushed_metal: { metal: 0.92, rough: 0.22 },
+  carbon_weave: { metal: 0.85, rough: 0.28 },
+  hex_tech: { metal: 0.7, rough: 0.35 },
+  matte_armor: { metal: 0.35, rough: 0.55 },
+};
+
+const environments = new WeakMap<Scene, BaseTexture>();
+
+/**
+ * A soft "photo studio" for metal to reflect: a gradient room with three big
+ * light panels (like three.js's RoomEnvironment). It is drawn once into a
+ * small cube texture, then the studio pieces are removed.
+ */
+export function heroEnvironment(scene: Scene): BaseTexture {
+  const existing = environments.get(scene);
+  if (existing) return existing;
+  const probe = new ReflectionProbe("heroStudio", 128, scene, true, true);
+  probe.refreshRate = 0; // 0 = draw it only once
+  probe.position = new Vector3(0, -500, 0);
+  const pieces: Mesh[] = [];
+  const glowMat = (c: string, k: number) => {
+    const m = new StandardMaterial("studioPanel", scene);
+    m.disableLighting = true;
+    m.emissiveColor = Color3.FromHexString(c).scale(k);
+    m.backFaceCulling = false;
+    m.fogEnabled = false;
+    return m;
+  };
+  const room = CreateSphere("studioRoom", { diameter: 40, segments: 12, sideOrientation: Mesh.BACKSIDE }, scene);
+  const positions = room.getVerticesData(VertexBuffer.PositionKind)!;
+  const colors: number[] = [];
+  for (let i = 0; i < positions.length; i += 3) {
+    const t = positions[i + 1] / 20; // -1 bottom .. 1 top
+    // A dim room (so the bright panels make crisp highlights), lighter above, dark below.
+    const c = t > 0 ? Color3.Lerp(Color3.FromHexString("#3a4352"), Color3.FromHexString("#6b7687"), t) : Color3.Lerp(Color3.FromHexString("#3a4352"), Color3.FromHexString("#101216"), -t);
+    colors.push(c.r, c.g, c.b, 1);
+  }
+  room.setVerticesData(VertexBuffer.ColorKind, colors);
+  room.material = glowMat("#ffffff", 1);
+  pieces.push(room);
+  // Key light (warm, front-left), rim light (cool, back-right), and a big soft top light.
+  const panel = (w: number, h: number, at: V3, color: string, k: number) => {
+    const p = CreateBox("studioLight", { width: w, height: h, depth: 0.2 }, scene);
+    p.position.set(...at);
+    p.lookAt(Vector3.Zero());
+    p.material = glowMat(color, k);
+    pieces.push(p);
+  };
+  panel(7, 10, [-12, 5, 12], "#fff1dc", 7);
+  panel(4, 12, [13, 3, -9], "#bfe1ff", 6);
+  panel(12, 4, [0, 17, 4], "#ffffff", 5);
+  panel(3, 8, [12, 2, 11], "#ffffff", 4);
+  for (const p of pieces) {
+    p.position.addInPlace(new Vector3(0, -500, 0));
+    p.isPickable = false;
+    probe.renderList!.push(p);
+  }
+  // Once the cube is drawn, the studio is no longer needed.
+  probe.cubeTexture.onAfterRenderObservable.addOnce(() => {
+    for (const p of pieces) p.setEnabled(false);
+  });
+  environments.set(scene, probe.cubeTexture);
+  return probe.cubeTexture;
+}
+
+const finishTextures = new WeakMap<Scene, Partial<Record<Finish, Texture>>>();
+
+/** The carbon weave and hex tech patterns from Forge3D, drawn on a canvas. */
+function finishTexture(scene: Scene, finish: Finish): Texture | null {
+  if (finish !== "carbon_weave" && finish !== "hex_tech") return null;
+  let cache = finishTextures.get(scene);
+  if (!cache) finishTextures.set(scene, (cache = {}));
+  if (cache[finish]) return cache[finish]!;
+  const size = finish === "carbon_weave" ? 128 : 256;
+  const tex = new DynamicTexture(`finish-${finish}`, { width: size, height: size }, scene, true);
+  const ctx = tex.getContext() as unknown as CanvasRenderingContext2D;
+  if (finish === "carbon_weave") {
+    // Light and dark squares with a soft sheen: the weave (it is multiplied by the hero's colour).
+    const step = 16;
+    for (let y = 0; y < size; y += step) {
+      for (let x = 0; x < size; x += step) {
+        const alt = (x / step + y / step) % 2 === 0;
+        ctx.fillStyle = alt ? "#e4e4e7" : "#9ca3af";
+        ctx.fillRect(x, y, step, step);
+        ctx.fillStyle = alt ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.18)";
+        ctx.fillRect(x, y, step, step / 2);
+      }
+    }
+  } else {
+    ctx.fillStyle = "#d4d4d8";
+    ctx.fillRect(0, 0, size, size);
+    const r = 24;
+    const h = r * Math.sin(Math.PI / 3);
+    ctx.strokeStyle = "rgba(40,40,48,0.55)";
+    ctx.lineWidth = 2;
+    const hex = (cx: number, cy: number) => {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (i * Math.PI) / 3;
+        if (i === 0) ctx.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+        else ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+      }
+      ctx.closePath();
+      ctx.stroke();
+    };
+    for (let y = -h; y < size + h * 2; y += h * 2) {
+      for (let x = -r * 3; x < size + r * 3; x += r * 3) {
+        hex(x, y);
+        hex(x + r * 1.5, y + h);
+      }
+    }
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
+    for (let i = 0; i < 8; i++) {
+      ctx.beginPath();
+      ctx.arc((i * 37) % size, (i * 61) % size, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  tex.update(true);
+  tex.wrapU = Texture.WRAP_ADDRESSMODE;
+  tex.wrapV = Texture.WRAP_ADDRESSMODE;
+  tex.anisotropicFilteringLevel = 8;
+  cache[finish] = tex;
+  return tex;
+}
+
+/** One realistic metal material per surface kind, coloured for this hero. */
+function richMaterials(scene: Scene, name: string, L: CharacterLook): Record<Slot, PBRMaterial> {
+  const env = heroEnvironment(scene);
+  const f = FINISH_PBR[L.finish];
+  const lin = (hex: string) => Color3.FromHexString(hex).toLinearSpace();
+  const make = (slot: Slot, color: string, metal: number, rough: number): PBRMaterial => {
+    const m = new PBRMaterial(`${name}-${slot}`, scene);
+    m.albedoColor = lin(color);
+    m.metallic = metal;
+    m.roughness = rough;
+    m.reflectionTexture = env;
+    m.environmentIntensity = 1.0;
+    m.directIntensity = 1.4;
+    m.useRadianceOverAlpha = false;
+    return m;
+  };
+  const glow = lin(L.glowColor);
+  const mats: Record<Slot, PBRMaterial> = {
+    primary: make("primary", L.primaryColor, f.metal, f.rough),
+    secondary: make("secondary", L.secondaryColor, Math.max(0.1, f.metal - 0.2), Math.min(0.9, f.rough + 0.2)),
+    accent: make("accent", L.accentColor, Math.min(0.95, f.metal + 0.1), Math.max(0.1, f.rough - 0.1)),
+    chassis: make("chassis", CHASSIS, 0.9, 0.4),
+    joint: make("joint", JOINT, 0.95, 0.15),
+    glow: make("glow", L.glowColor, 0.1, 0.2),
+    blade: make("blade", L.accentColor, 0.9, 0.1),
+  };
+  mats.glow.emissiveColor = glow.scale(2.2);
+  mats.glow.emissiveIntensity = 1;
+  mats.blade.emissiveColor = glow.scale(1.6);
+  const tex = finishTexture(scene, L.finish);
+  if (tex) mats.primary.albedoTexture = tex;
+  return mats;
+}
+
+// ---------------------------------------------------------------------
 // Shape helpers (ports of the Forge3D geometry bank)
 // ---------------------------------------------------------------------
 
@@ -273,7 +450,8 @@ function extrude(scene: Scene, outline: [number, number][], depth: number): Mesh
   data.positions = positions;
   data.indices = indices;
   data.normals = normals;
-  data.uvs = new Array((positions.length / 3) * 2).fill(0);
+  // Flat UVs across the outline, so finish textures (carbon, hex) show on these parts too.
+  data.uvs = positions.flatMap((v, i) => (i % 3 === 2 ? [] : [v / 0.3]));
   const mesh = new Mesh("extrude", scene);
   data.applyToMesh(mesh);
   return mesh;
@@ -358,9 +536,8 @@ export class Character {
   private scaleNode: TransformNode;
   private joints = {} as Record<BoneName, TransformNode>;
   private rest = {} as Record<BoneName, Vector3>;
-  private mesh: Mesh;
-  private skeleton: Skeleton;
-  private material: StandardMaterial;
+  private mesh!: Mesh;
+  private skeleton!: Skeleton;
 
   // Animation state
   private time = Math.random() * 10;
@@ -370,6 +547,8 @@ export class Character {
   private hopTimer = 0;
   /** Set by whoever moves the hero: 0 = standing still, 1 = normal walking speed. */
   moving = 0;
+  /** 0 = on the ground, 1 = in the air (jumping): legs tuck up, arms go out. */
+  airborne = 0;
 
   constructor(
     scene: Scene,
@@ -380,7 +559,6 @@ export class Character {
     this.root = new TransformNode(name, scene);
     this.scaleNode = new TransformNode(`${name}-scale`, scene);
     this.scaleNode.parent = this.root;
-    this.material = heroMaterial(scene, name, this.look.finish);
 
     // 1. The joints, in the original studio positions.
     const j = (bone: BoneName, x: number, y: number, z: number) => {
@@ -403,35 +581,89 @@ export class Character {
     j("thighR", -0.28, -0.15, 0);
     j("calfR", 0, -0.75, 0);
 
-    // 2. All the parts, each hung on its joint.
-    const parts: { mesh: Mesh; bone: number }[] = [];
-    this.buildParts(scene, (mesh, bone) => parts.push({ mesh, bone: BONE_ORDER.indexOf(bone) }));
+    this.scaleNode.scaling.setAll(HERO_SCALE);
+    this.buildMesh(scene, Character.detail);
+  }
 
-    // 3. Merge into one mesh and give every vertex its bone.
+  /** "rich" = smooth metal heroes (Medium/High), "simple" = one light material (Low). New heroes use this. */
+  static detail: "rich" | "simple" = "rich";
+
+  /** Switch between rich and simple (when the quality setting changes). */
+  setDetail(detail: "rich" | "simple"): void {
+    if (detail === this.currentDetail) return;
+    const scene = this.root.getScene();
+    this.disposeMesh();
+    this.buildMesh(scene, detail);
+  }
+
+  private currentDetail: "rich" | "simple" = "simple";
+
+  private disposeMesh(): void {
+    this.mesh.dispose();
+    this.skeleton.dispose();
+    for (const m of this.materials) m.dispose();
+    this.materials = [];
+  }
+
+  /** Build all parts in the resting pose, merge them, and attach the skeleton. */
+  private buildMesh(scene: Scene, detail: "rich" | "simple"): void {
+    const name = this.root.name;
+    this.currentDetail = detail;
+
+    // Build in the resting pose, with the hero standing at the origin unscaled.
+    const saved = BONE_ORDER.map((b) => [this.joints[b].position.clone(), this.joints[b].rotation.clone()] as const);
+    for (const b of BONE_ORDER) {
+      this.joints[b].position.copyFrom(this.rest[b]);
+      this.joints[b].rotation.setAll(0);
+    }
+    this.scaleNode.parent = null;
+    this.scaleNode.scaling.setAll(1);
+
+    // All the parts, each hung on its joint and tagged with its bone.
+    const parts: { mesh: Mesh; slot: Slot }[] = [];
+    this.buildParts(scene, detail === "rich", (mesh, bone, slot) => {
+      const n = mesh.getTotalVertices();
+      const idx = new Float32Array(n * 4);
+      const w = new Float32Array(n * 4);
+      const bi = BONE_ORDER.indexOf(bone);
+      for (let k = 0; k < n; k++) {
+        idx[k * 4] = bi;
+        w[k * 4] = 1;
+      }
+      mesh.setVerticesData(VertexBuffer.MatricesIndicesKind, idx);
+      mesh.setVerticesData(VertexBuffer.MatricesWeightsKind, w);
+      parts.push({ mesh, slot });
+    });
     for (const n of Object.values(this.joints)) n.computeWorldMatrix(true);
     for (const p of parts) p.mesh.computeWorldMatrix(true);
-    const counts = parts.map((p) => p.mesh.getTotalVertices());
-    const merged = Mesh.MergeMeshes(parts.map((p) => p.mesh), true, true)!;
-    merged.name = `${name}-mesh`;
-    const total = merged.getTotalVertices();
-    const indices = new Float32Array(total * 4);
-    const weights = new Float32Array(total * 4);
-    let v = 0;
-    parts.forEach((p, i) => {
-      for (let k = 0; k < counts[i]; k++, v++) {
-        indices[v * 4] = p.bone;
-        weights[v * 4] = 1;
+
+    let merged: Mesh;
+    if (detail === "rich") {
+      // One piece per surface kind, then one mesh with a sub-mesh per material.
+      const mats = richMaterials(scene, name, this.look);
+      const groups: Mesh[] = [];
+      for (const slot of SLOTS) {
+        const list = parts.filter((p) => p.slot === slot).map((p) => p.mesh);
+        if (list.length === 0) continue;
+        const g = Mesh.MergeMeshes(list, true, true)!;
+        g.material = mats[slot];
+        groups.push(g);
       }
-    });
-    merged.setVerticesData(VertexBuffer.MatricesIndicesKind, indices);
-    merged.setVerticesData(VertexBuffer.MatricesWeightsKind, weights);
+      merged = Mesh.MergeMeshes(groups, true, true, undefined, true, true)!;
+      merged.useVertexColors = false;
+      this.materials = [...Object.values(mats), merged.material!];
+    } else {
+      merged = Mesh.MergeMeshes(parts.map((p) => p.mesh), true, true)!;
+      merged.hasVertexAlpha = false; // alpha marks glowing parts, not see-through ones
+      merged.material = heroMaterial(scene, name, this.look.finish);
+      this.materials = [merged.material];
+    }
+    merged.name = `${name}-mesh`;
     merged.numBoneInfluencers = 1;
-    merged.hasVertexAlpha = false; // alpha marks glowing parts, not see-through ones
-    merged.material = this.material;
     merged.parent = this.scaleNode;
     merged.isPickable = false;
 
-    // 4. A skeleton whose bones follow the joint nodes.
+    // A skeleton whose bones follow the joint nodes.
     const skeleton = new Skeleton(`${name}-skeleton`, `${name}-skeleton`, scene);
     const bones = {} as Record<BoneName, Bone>;
     for (const b of BONE_ORDER) {
@@ -443,18 +675,28 @@ export class Character {
     merged.skeleton = skeleton;
     // The pose changes the shape a lot (raised arms, staff): give the camera a generous box.
     merged.refreshBoundingInfo();
-    const bb = merged.getBoundingInfo();
-    bb.scale(1.6);
+    merged.getBoundingInfo().scale(1.6);
     this.mesh = merged;
     this.skeleton = skeleton;
 
+    // Put everything back.
+    this.scaleNode.parent = this.root;
     this.scaleNode.scaling.setAll(HERO_SCALE);
+    BONE_ORDER.forEach((b, i) => {
+      this.joints[b].position.copyFrom(saved[i][0]);
+      this.joints[b].rotation.copyFrom(saved[i][1]);
+    });
+    this.onMeshChanged?.(merged);
   }
+
+  private materials: Material[] = [];
+  /** Called when the mesh is rebuilt (so shadows can be updated). */
+  onMeshChanged: ((mesh: Mesh) => void) | null = null;
 
   readonly look: CharacterLook;
 
   /** All the hero's parts, attached to their joints. `add` collects them. */
-  private buildParts(scene: Scene, add: (mesh: Mesh, bone: BoneName) => void): void {
+  private buildParts(scene: Scene, rich: boolean, add: (mesh: Mesh, bone: BoneName, slot: Slot) => void): void {
     const L = this.look;
     const J = this.joints;
     const glowCol = L.glowColor;
@@ -471,15 +713,21 @@ export class Character {
       for (let i = 0; i < n; i++) colors.set([c.r, c.g, c.b, glow ? 0.25 : 1], i * 4);
       mesh.setVerticesData(VertexBuffer.ColorKind, colors);
       mesh.isPickable = false;
-      add(mesh, bone);
+      const slot: Slot = glow
+        ? color === L.accentColor && L.weaponStyle === "plasma_sword" && bone === "forearmR" ? "blade" : "glow"
+        : color === L.primaryColor ? "primary" : color === L.secondaryColor ? "secondary" : color === L.accentColor ? "accent" : color === CHASSIS ? "chassis" : "joint";
+      add(mesh, bone, slot);
       return mesh;
     };
-    const cbox = (w: number, h: number, d: number, r = 0.04) => chamferBox(scene, w, h, d, Math.min(r, w / 2, h / 2, d / 2) * 0.9);
+    // Rich heroes get smooth rounded armour; simple ones a cheaper bevel.
+    const cbox = (w: number, h: number, d: number, r = 0.04) =>
+      rich ? roundedBox(scene, w, h, d, Math.max(r, 0.035), 2, 0.35) : chamferBox(scene, w, h, d, Math.min(r, w / 2, h / 2, d / 2) * 0.9);
+    const seg = (n: number) => (rich ? Math.round(n * 1.6) : n);
     const box = (w: number, h: number, d: number) => CreateBox("b", { width: w, height: h, depth: d }, scene);
-    const cyl = (rTop: number, rBot: number, h: number, seg = 12) => CreateCylinder("c", { diameterTop: rTop * 2, diameterBottom: rBot * 2, height: h, tessellation: seg }, scene);
-    const sphere = (r: number, seg = 10) => CreateSphere("s", { diameter: r * 2, segments: seg }, scene);
-    const torus = (r: number, tube: number, seg = 24) => CreateTorus("t", { diameter: r * 2, thickness: tube * 2, tessellation: seg }, scene);
-    const cone = (r: number, h: number, seg = 12) => CreateCylinder("cone", { diameterTop: 0, diameterBottom: r * 2, height: h, tessellation: seg }, scene);
+    const cyl = (rTop: number, rBot: number, h: number, n = 12) => CreateCylinder("c", { diameterTop: rTop * 2, diameterBottom: rBot * 2, height: h, tessellation: seg(n) }, scene);
+    const sphere = (r: number, n = 10) => CreateSphere("s", { diameter: r * 2, segments: seg(n) }, scene);
+    const torus = (r: number, tube: number, n = 24) => CreateTorus("t", { diameter: r * 2, thickness: tube * 2, tessellation: seg(n) }, scene);
+    const cone = (r: number, h: number, n = 12) => CreateCylinder("cone", { diameterTop: 0, diameterBottom: r * 2, height: h, tessellation: seg(n) }, scene);
     const ring = () => torus(0.35, 0.025, 28);
 
     // --- Hips ---
@@ -704,6 +952,19 @@ export class Character {
       T.head = mix(T.head, [bob * 0.5, 0, 0]);
     }
 
+    // Jumping: knees up, arms out.
+    if (this.airborne > 0.01) {
+      const a = this.airborne;
+      const mix = (from: V3, to: V3): V3 => [from[0] + (to[0] - from[0]) * a, from[1] + (to[1] - from[1]) * a, from[2] + (to[2] - from[2]) * a];
+      T.thighL = mix(T.thighL, [-0.9, 0, 0.1]);
+      T.calfL = mix(T.calfL, [1.2, 0, 0]);
+      T.thighR = mix(T.thighR, [-0.35, 0, -0.1]);
+      T.calfR = mix(T.calfR, [0.7, 0, 0]);
+      T.armL = mix(T.armL, [-0.3, 0, 1.1]);
+      T.armR = mix(T.armR, [-0.3, 0, -1.1]);
+      T.chest = mix(T.chest, [-0.1, 0, 0]);
+    }
+
     // Wave: the left arm goes up and swings side to side.
     if (this.waveTimer > 0) {
       this.waveTimer -= dt;
@@ -745,8 +1006,7 @@ export class Character {
   }
 
   dispose(): void {
-    this.skeleton.dispose();
-    this.material.dispose();
+    this.disposeMesh();
     this.root.dispose();
   }
 }

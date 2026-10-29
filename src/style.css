@@ -1410,3 +1410,94 @@ body.fullscreen-menu #settings-btn {
     margin-top: 6px;
   }
 }
+
+/* --- Joystick and jump button --- */
+#touch-controls {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+#touch-controls[hidden] {
+  display: none;
+}
+
+.stick-base {
+  position: absolute;
+  left: max(18px, env(safe-area-inset-left));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: min(140px, 34vh);
+  height: min(140px, 34vh);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0 55%, rgba(255, 255, 255, 0.45) 56% 100%);
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.stick-base.active {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0 55%, rgba(255, 255, 255, 0.6) 56% 100%);
+}
+
+.stick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 46%;
+  margin: -23% 0 0 -23%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff, #dbe4ff);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.jump-btn {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(96px, 24vh);
+  height: min(96px, 24vh);
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #8ce99a, #40c057);
+  box-shadow: 0 5px 0 #2b8a3e;
+  color: #fff;
+  font-size: min(34px, 8vh);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.jump-btn span {
+  font-size: min(15px, 3.8vh);
+}
+
+.jump-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #2b8a3e;
+}
+
+/* Make room for the joystick: home/shop buttons sit under the player chip, and the
+   "open my shop" button sits above the jump button. */
+.hud-buttons {
+  top: calc(max(10px, env(safe-area-inset-top)) + 66px);
+  bottom: auto;
+}
+
+.run-shop {
+  bottom: calc(max(18px, env(safe-area-inset-bottom)) + min(110px, 27vh));
+}
+
+#hint {
+  bottom: max(14px, env(safe-area-inset-bottom));
+  max-width: 44vw;
+  font-size: 18px;
+}

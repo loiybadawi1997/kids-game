@@ -8,7 +8,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
 import { StaticBatch, box, createVertexColorMaterial } from "./meshKit";
 import { NavGrid } from "./navGrid";
-import { COLORS, HouseStyle, PropBuilder, ShopKind, ShopStyle, makeRandom } from "./props";
+import { Building, COLORS, HouseStyle, PropBuilder, ShopKind, ShopStyle, makeRandom } from "./props";
 import { Pattern, encodePattern } from "./patterns";
 import { SignAtlas } from "./signs";
 import { createAmbient } from "./ambient";
@@ -36,6 +36,8 @@ export interface TownInfo {
   shops: ShopInfo[];
   /** The six Home Lane houses, one per child profile. */
   homes: HomeInfo[];
+  /** Building footprints, for keeping the camera out of walls. */
+  buildings: Building[];
   /** Big merged meshes that cast and receive shadows. */
   solidMeshes: Mesh[];
   ground: Mesh;
@@ -293,6 +295,7 @@ export function buildTown(scene: Scene): TownInfo {
     ],
     shops,
     homes,
+    buildings: b.buildings,
     solidMeshes,
     ground,
     patternMaterials: [material, ground.material as StandardMaterial],

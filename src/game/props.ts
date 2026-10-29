@@ -64,6 +64,15 @@ export interface HouseStyle {
   flowerBoxes?: boolean;
 }
 
+export interface Building {
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  rotY: number;
+  height: number;
+}
+
 export type ShopKind = "fruit" | "bakery" | "toys" | "flowers" | "icecream" | "books";
 
 export interface ShopStyle {
@@ -94,6 +103,8 @@ export function shade(hex: string, amount: number): string {
 export class PropBuilder {
   /** Lamp bulbs and other glowing bits, merged separately with a bright material. */
   readonly glowPieces: Mesh[] = [];
+  /** Footprints and heights of buildings (the camera moves closer when one is in the way). */
+  readonly buildings: Building[] = [];
 
   constructor(
     private scene: Scene,
@@ -325,6 +336,7 @@ export class PropBuilder {
     }
 
     this.nav.blockRect(x, z, w + 0.4, d + 0.4, rotY);
+    this.buildings.push({ x, z, width: w + 0.8, depth: d + 0.8, rotY, height: top + roofH + 0.3 });
     if (s.porch) {
       for (const sx of [-1, 1]) {
         const p = this.toWorld(g, [sx * 0.95, 0, fz + 1.12]);
@@ -440,6 +452,7 @@ export class PropBuilder {
     this.rooftopIcon(g, s.kind, top + 0.35);
 
     this.nav.blockRect(x, z, w + 0.4, d + 0.4, rotY);
+    this.buildings.push({ x, z, width: w + 0.4, depth: d + 0.4, rotY, height: top + 2.6 });
     // The goods stand out front.
     const goods = this.toWorld(g, [-1.0, 0, fz + 0.8]);
     this.nav.blockRect(goods.x, goods.z, 3.6, 0.9, rotY, 0.3);
@@ -635,6 +648,7 @@ export class PropBuilder {
     }
 
     this.nav.blockRect(x, z, w + 0.8, d + 0.8, rotY);
+    this.buildings.push({ x, z, width: w + 0.8, depth: d + 0.8, rotY, height: top + 12 });
     const front = this.toWorld(g, [0, 0, fz + 1.5]);
     this.nav.blockRect(front.x, front.z, w + 0.4, 2.6, rotY, 0.2);
 

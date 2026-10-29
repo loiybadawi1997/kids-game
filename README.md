@@ -31,7 +31,8 @@ The installed app opens full screen in landscape and works offline.
   - Every day ends with coins for the child, saved to their profile.
 - Tap your picture (top left) to switch player.
 
-- **Tap the ground** to walk there.
+- **Move the joystick** (bottom left) to walk, **⬆️ Jump** (bottom right) to jump, or **tap the ground** to walk there.
+  The camera swings round behind your hero as they move, and lifts or turns when a building is in the way.
 - **Tap a person** to walk over and say hi.
 - **Drag** to turn the camera, **pinch** to zoom.
 

@@ -37,17 +37,25 @@ Each type is a ready-made combination of parts and colours. A child can start fr
 
 ## How heroes move
 
+- **Controls:** the player walks with the on-screen joystick, jumps with ⬆️ Jump, or taps the ground to walk there.
+
 - **Walking:** legs stride, knees bend, arms swing, hips bob and twist.
 - **Standing:** in the chosen pose, gently breathing and looking around.
 - **Saying hello:** the left arm waves and the hero does a little hop. This happens when meeting a friend, when a child picks their profile, and after a shop day.
+- **Jumping:** knees tuck up and arms go out while in the air.
 - **Smoothing:** every joint glides smoothly to its new position.
 
 ## How they are built (for developers)
 
 - **Parts and size:** parts are simple shapes (bevelled boxes, cylinders, spheres, tori, a lathe for thruster nozzles, tubes for horns, extruded outlines for the breastplate, shoulder guards, blade, shield, blaster and cape). Sizes are in the original studio units, where a hero is about 3.7 units tall, and the whole hero is scaled by 0.475 to about **1.75 m**.
+- **Two levels of detail:**
+  - **Rich** (Medium and High quality, and the avatar creator): smooth rounded armour, and realistic metal (PBR) materials for the main armour, trim, details, frame, joints, glow and blade. They reflect a little "photo studio" (a dim room with three bright light panels) that is drawn once into a cube texture. Carbon and hex finishes use the Forge3D patterns as textures, and glowing parts really emit light (bloom on High).
+  - **Simple** (Low quality): one vertex-colour material with a cheaper bevel.
+
+  Changing the quality rebuilds every hero.
 - **One mesh per hero:** all parts are merged into **one mesh** with **one material**, moved by an 11-bone skeleton: hips, chest, head, upper and lower arms, thighs and calves. Each hero is a single draw call, and a single shadow caster.
-- **Glow:** glowing parts are marked in the vertex colour alpha. A small material plugin (`GlowPlugin`) draws them bright and unlit, and bloom (on High quality) makes them shine.
-- **Finishes:** each finish sets how shiny the hero's material is. The original carbon and hex textures are not copied, because a texture that follows the world position would slide across a moving hero.
+- **Glow (simple heroes):** glowing parts are marked in the vertex colour alpha. A small material plugin (`GlowPlugin`) draws them bright and unlit, and bloom (on High quality) makes them shine.
+- **Finishes:** each finish sets how metallic and rough the armour is, from the Forge3D presets.
 - **Saved looks:** a hero look is saved with the child's profile as `CharacterLook`:
   - `archetype`, `headStyle`, `torsoStyle`, `shoulderStyle`, `backStyle`, `weaponStyle`
   - `primaryColor`, `secondaryColor`, `accentColor`, `glowColor`
