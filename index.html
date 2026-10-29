@@ -21,13 +21,26 @@
   <body>
     <canvas id="game"></canvas>
 
+    <!-- Speech bubbles are drawn here, on top of the 3D view. -->
+    <div id="bubbles"></div>
+
+    <!-- A friendly hint until the first tap. -->
+    <div id="hint" hidden>👆 Tap the ground to walk!<br /><small>Tap a friend to say hi 👋</small></div>
+
+    <!-- Shown while the town is being built. -->
+    <div id="loading">
+      <div class="logo">🏡</div>
+      <div class="title">Kids Town</div>
+      <div class="bar"><div class="fill"></div></div>
+    </div>
+
     <!-- Shown only when the phone is held upright (see style.css). -->
     <div id="rotate-hint">
       <div class="phone-icon">📱</div>
       <p>Turn your phone sideways</p>
     </div>
 
-    <div id="fps"></div>
+    <div id="fps" hidden></div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
