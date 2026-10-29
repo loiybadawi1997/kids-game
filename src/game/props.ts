@@ -8,6 +8,7 @@ import { StaticBatch, ball, blob, box, cylinder, paint } from "./meshKit";
 import { NavGrid } from "./navGrid";
 import { Pattern } from "./patterns";
 import { SignAtlas } from "./signs";
+import { Kit } from "./kit";
 
 /*
  * Builders for every object in the town: houses, shops, trees, fences...
@@ -112,7 +113,59 @@ export class PropBuilder {
     readonly nav: NavGrid,
     readonly random: () => number,
     readonly signs: SignAtlas,
+    /** Artist-made models (Kenney, Quaternius). When missing, simple built-in shapes are used. */
+    readonly kit?: Kit,
   ) {}
+
+  private pick<T>(list: readonly T[]): T {
+    return list[Math.floor(this.random() * list.length)];
+  }
+
+  /** Place a kit model at a point in a group's frame (so it moves and turns with the group). */
+  private kitAt(g: TransformNode, name: string, local: Vec, opts: { height?: number; rotY?: number } = {}): void {
+    if (!this.kit) return;
+    const w = this.toWorld(g, local);
+    this.kit.place(name, w.x, w.z, { y: w.y, height: opts.height, rotY: g.rotation.y + (opts.rotY ?? 0) });
+  }
+
+  // ------------------------------------------------------------------
+  // Kit models: houses, landmarks and scenery from the CC0 packs
+  // ------------------------------------------------------------------
+
+  /**
+   * A Kenney house, scaled to `width` metres wide, facing `rotY`.
+   * Returns the world position just outside its front.
+   */
+  kitHouse(model: string, x: number, z: number, rotY: number, width = 7): Vector3 {
+    const kit = this.kit!;
+    const size = kit.size(model);
+    const s = width / size.x;
+    kit.place(model, x, z, { rotY, scale: s });
+    const w = size.x * s;
+    const d = size.z * s;
+    this.nav.blockRect(x, z, w + 0.2, d + 0.2, rotY);
+    this.buildings.push({ x, z, width: w + 0.4, depth: d + 0.4, rotY, height: size.y * s + 0.3 });
+    const g = this.group(x, z, rotY);
+    const door = this.toWorld(g, [0, 0, d / 2 + 1.3]);
+    g.dispose();
+    return door;
+  }
+
+  /** A big landmark model (ferris wheel, wind turbine, truck...). Blocks a box `w` × `d` around it if `block`. */
+  landmark(model: string, x: number, z: number, rotY: number, height: number, block = true): void {
+    const kit = this.kit!;
+    const s = kit.place(model, x, z, { rotY, height });
+    if (!block) return;
+    const size = kit.size(model);
+    this.nav.blockRect(x, z, size.x * s, size.z * s, rotY, 0.3);
+    this.buildings.push({ x, z, width: size.x * s, depth: size.z * s, rotY, height: size.y * s });
+  }
+
+  /** Small scenery from the kit that people can walk past (logs, stumps, mushrooms...). */
+  scenery(model: string, x: number, z: number, height: number, blockRadius = 0): void {
+    this.kit?.place(model, x, z, { rotY: this.random() * Math.PI * 2, height });
+    if (blockRadius > 0) this.nav.blockCircle(x, z, blockRadius, 0.2);
+  }
 
   // ------------------------------------------------------------------
   // Basics: a "group" is a position + rotation that pieces are placed in.
@@ -469,6 +522,21 @@ export class PropBuilder {
     // A wooden stand that everything sits on.
     this.box(g, COLORS.wood, [3.4, 0.6, 0.85], [-1.0, 0.3, z], undefined, Pattern.Wood);
     this.box(g, COLORS.woodDark, [3.5, 0.08, 0.9], [-1.0, 0.62, z]);
+    // Real Kenney food models on the stand, when we have them.
+    const goods: Partial<Record<ShopKind, [string, number][]>> = {
+      fruit: [["m-apple", 0.3], ["m-orange", 0.28], ["m-watermelon", 0.42], ["m-pear", 0.34], ["m-pineapple", 0.5], ["m-banana", 0.22], ["m-grapes", 0.36], ["m-lemon", 0.28], ["m-strawberry", 0.24], ["m-cherries", 0.24]],
+      bakery: [["m-loaf", 0.32], ["m-croissant", 0.2], ["m-loaf-round", 0.22], ["m-cupcake", 0.3], ["m-loaf-baguette", 0.18], ["m-muffin", 0.24], ["m-cake", 0.24], ["m-donut-sprinkles", 0.12], ["m-pie", 0.12], ["m-cookie", 0.06]],
+      icecream: [["m-ice-cream", 0.48], ["m-sundae", 0.5], ["m-popsicle", 0.42], ["m-ice-cream-cup", 0.24], ["m-ice-cream-cone", 0.3], ["m-lollypop", 0.4], ["m-ice-cream", 0.48], ["m-cupcake", 0.3], ["m-popsicle", 0.42], ["m-sundae", 0.5]],
+    };
+    const list = this.kit ? goods[kind] : undefined;
+    if (list) {
+      list.forEach(([model, h], i) => {
+        const cx = -2.45 + (i % 5) * 0.72;
+        const back = i >= 5 ? 1 : 0;
+        this.kitAt(g, model, [cx, 0.66 + back * 0.02, z - 0.18 + back * 0.36], { height: h, rotY: this.random() * 6 });
+      });
+      return;
+    }
     const items = (colors: string[], size: number) => {
       for (let i = 0; i < 10; i++) {
         const cx = -2.45 + (i % 5) * 0.72;
@@ -516,6 +584,13 @@ export class PropBuilder {
 
   /** A giant fun object on the roof so each shop is easy to recognise from far away. */
   private rooftopIcon(g: TransformNode, kind: ShopKind, y: number): void {
+    // Giant food models on the roofs of the food shops.
+    const giant: Partial<Record<ShopKind, [string, number]>> = { fruit: ["m-apple", 2.0], bakery: ["m-croissant", 1.6], icecream: ["m-ice-cream", 2.6] };
+    const big = this.kit ? giant[kind] : undefined;
+    if (big) {
+      this.kitAt(g, big[0], [0, y, 0], { height: big[1], rotY: 0.4 });
+      return;
+    }
     switch (kind) {
       case "fruit":
         this.add(g, ball(this.scene, "#ff4d4d", 1.6, { at: [0, y + 0.8, 0], scale: [1, 0.92, 1] }, 10));
@@ -666,6 +741,14 @@ export class PropBuilder {
   // ------------------------------------------------------------------
 
   tree(x: number, z: number, size = 1, kind: "round" | "pine" | "blossom" = "round"): void {
+    if (this.kit) {
+      // Kenney Nature Kit trees.
+      const models = kind === "pine" ? ["n-tree-pine", "n-tree-pine-tall", "n-tree-dark"] : kind === "blossom" ? ["n-tree-autumn"] : ["n-tree-oak", "n-tree-fat", "n-tree-oak"];
+      const s = size * (0.85 + this.random() * 0.35);
+      this.kit.place(this.pick(models), x, z, { rotY: this.random() * Math.PI * 2, height: (kind === "pine" ? 5.4 : 4.4) * s });
+      this.nav.blockCircle(x, z, 0.45 * s);
+      return;
+    }
     const g = this.group(x, z, this.random() * Math.PI * 2);
     const s = size * (0.85 + this.random() * 0.3);
     this.cyl(g, COLORS.trunk, 1.6 * s, 0.32 * s, 0.5 * s, [0, 0.8 * s, 0], 6, undefined, Pattern.Wood);
@@ -681,17 +764,17 @@ export class PropBuilder {
       this.blob(g, greens[1], 0.9 * s, [0.65 * s, 2.35 * s, 0.25 * s]);
       this.blob(g, greens[2], 0.85 * s, [-0.55 * s, 2.45 * s, -0.35 * s]);
       this.blob(g, greens[1], 0.7 * s, [0.1 * s, 3.35 * s, -0.1 * s]);
-      if (kind === "round" && this.random() < 0.4) {
-        for (let i = 0; i < 4; i++) {
-          const a = this.random() * Math.PI * 2;
-          this.ball(g, "#ff4d4d", 0.2, [Math.cos(a) * 1.05 * s, (2.4 + this.random() * 0.6) * s, Math.sin(a) * 1.05 * s]);
-        }
-      }
     }
     this.nav.blockCircle(x, z, 0.35 * s);
   }
 
   bush(x: number, z: number, color = "#58b947"): void {
+    if (this.kit) {
+      this.kit.place(this.pick(["n-bush-large", "n-bush"]), x, z, { rotY: this.random() * 6, height: 0.9 + this.random() * 0.4 });
+      if (this.random() < 0.4) this.kit.place("n-flower-red", x + 0.6, z + 0.3, { height: 0.55 });
+      this.nav.blockCircle(x, z, 0.65, 0.2);
+      return;
+    }
     const g = this.group(x, z, this.random() * 6);
     this.blob(g, color, 0.6, [0, 0.4, 0], [1.2, 0.8, 1]);
     this.blob(g, shade(color, 0.12), 0.45, [0.45, 0.35, 0.15]);
@@ -743,6 +826,11 @@ export class PropBuilder {
   }
 
   rock(x: number, z: number, size = 1): void {
+    if (this.kit) {
+      this.kit.place(this.pick(["m-formation-rock", "m-formation-stone", "n-rock-tall", "n-rock-large"]), x, z, { rotY: this.random() * 6, height: 1.1 * size });
+      this.nav.blockCircle(x, z, 0.7 * size, 0.2);
+      return;
+    }
     const g = this.group(x, z, this.random() * 6);
     this.blob(g, "#b9b3a8", 0.5 * size, [0, 0.2 * size, 0], [1.3, 0.7, 1]);
     this.blob(g, "#cfc9bd", 0.3 * size, [0.4 * size, 0.15 * size, 0.2 * size]);

@@ -20,8 +20,8 @@ const engine = new Engine(canvas, true, { stencil: true, powerPreference: "high-
 
 // Let the loading screen appear before the (slightly slow) town building starts.
 requestAnimationFrame(() =>
-  setTimeout(() => {
-    const game = new Game(engine, canvas, loadQualitySetting());
+  setTimeout(async () => {
+    const game = await Game.create(engine, canvas, loadQualitySetting());
     game.setOnFirstTap(() => (hint.hidden = true));
     const settings = new SettingsMenu(game.graphics);
     const app = new App(game, settings, hint);

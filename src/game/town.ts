@@ -12,6 +12,8 @@ import { Building, COLORS, HouseStyle, PropBuilder, ShopKind, ShopStyle, makeRan
 import { Pattern, encodePattern } from "./patterns";
 import { SignAtlas } from "./signs";
 import { createAmbient } from "./ambient";
+import { Kit } from "./kit";
+import { createAnimals } from "./animals";
 
 export interface ShopInfo {
   kind: ShopKind;
@@ -60,14 +62,18 @@ export interface TownInfo {
  *   ============ South Lane =+=====================    z = -16
  *    [house] [house] [ TOWN HALL ] [house] [house]     z = -24
  */
-export function buildTown(scene: Scene): TownInfo {
+/** Kenney houses for Home Lane (one per child) and South Lane. */
+const HOME_MODELS = ["m-house-5", "m-house-18", "m-house-3", "m-house1", "m-house-7", "m-house-4"];
+const SOUTH_MODELS = ["m-house1", "m-house-4", "m-house-3", "m-house-5"];
+
+export function buildTown(scene: Scene, kit: Kit): TownInfo {
   const random = makeRandom(7);
   const nav = new NavGrid(-41, -34, 41, 35, 0.5);
   // No shine on the town: a matte, painted look (and no glare on the paths).
   const material = createVertexColorMaterial(scene, "town", 0);
   const batch = new StaticBatch(material, 28);
   const signs = new SignAtlas(scene);
-  const b = new PropBuilder(scene, batch, nav, random, signs);
+  const b = new PropBuilder(scene, batch, nav, random, signs, kit);
 
   const ground = createGround(scene, random);
 
@@ -115,7 +121,9 @@ export function buildTown(scene: Scene): TownInfo {
   const homes: HomeInfo[] = [];
   const nameSlots: number[] = [];
   [-30, -18, -6, 6, 18, 30].forEach((x, i) => {
-    const door = b.house(x, 23.6, Math.PI, homeStyles[i]);
+    // Kenney houses (CC0) for the children's homes.
+    const door = b.kitHouse(HOME_MODELS[i], x, 23.6, Math.PI, 7);
+    void homeStyles;
     homes.push({ door });
     b.path(x, 17.5, x, 21.0, 1.5); // front path to the door
     b.fence(x - 4.3, 18.4, x - 4.3, 21.4);
@@ -163,6 +171,14 @@ export function buildTown(scene: Scene): TownInfo {
 
   // --- The park (west) ---
   b.pond(-24, -7.5, 5.2, 3.3);
+  // A ferris wheel, a little campsite and logs and mushrooms in the park.
+  b.landmark("m-ferris-wheel", -34.2, -6.5, Math.PI / 2, 9);
+  b.landmark("n-tent", -35.5, 8.8, 0.6, 1.8);
+  b.scenery("n-campfire", -33.6, 6.6, 0.25, 0.5);
+  b.scenery("n-log", -33.4, 8.2, 0.55, 0.5);
+  b.scenery("n-log", -31.9, 5.6, 0.5, 0.5);
+  for (const [x, z] of [[-17.2, -11], [-29.8, -12.2], [-15.4, 5.6], [-36.5, 1.2], [-20.5, -2.7]]) b.scenery("n-mushroom-red", x, z, 0.45);
+  for (const [x, z] of [[-13.6, -8.4], [-32.4, 10.6], [-28.6, -10.6]]) b.scenery("n-stump", x, z, 0.5, 0.35);
   b.slide(-21, 7.5, Math.PI / 2);
   b.swings(-30.5, 7.8, 0);
   b.bench(-24, -2.8, Math.PI);
@@ -170,7 +186,7 @@ export function buildTown(scene: Scene): TownInfo {
   b.bin(-26.6, -2.9);
   b.signPost("🌳 Park", "#2f9e44", -12.6, 3.2, Math.PI / 2, 2.3, 0.8, 2.3);
   for (const [x, z, kind] of [
-    [-34, 4, "round"], [-35, -6, "pine"], [-33, -12.5, "round"], [-27, -12.8, "blossom"], [-19.5, -12, "round"],
+    [-34, 4, "round"], [-33, -12.5, "round"], [-27, -12.8, "blossom"], [-19.5, -12, "round"],
     [-15.5, -10, "pine"], [-14.5, 8.5, "blossom"], [-26, 11, "round"], [-36, 11, "pine"], [-18, 11.2, "round"],
   ] as const) {
     b.tree(x, z, 1.1, kind);
@@ -188,8 +204,8 @@ export function buildTown(scene: Scene): TownInfo {
     { x: 13, wall: "#d0ebff", roof: "#d9480f", door: "#2b8a3e", roofStyle: "front", porch: true, width: 5.2, chimney: null },
     { x: 25, wall: "#fff3bf", wallPattern: Pattern.Wood, roof: "#2b8a3e", roofPattern: Pattern.Shingles, door: "#862e9c", shutters: "#ffffff", width: 5.6, chimney: -1 },
   ];
-  for (const h of southStyles) {
-    b.house(h.x, -23.6, 0, h);
+  for (const [i, h] of southStyles.entries()) {
+    b.kitHouse(SOUTH_MODELS[i], h.x, -23.6, 0, 6.6);
     b.path(h.x, -17.5, h.x, -21.0, 1.5);
     b.flowers(h.x - 2.5, -19.6, 5, 0.8);
     b.mailbox(h.x + 1.6, -18.9, 0, "#4dabf7");
@@ -255,6 +271,13 @@ export function buildTown(scene: Scene): TownInfo {
     for (let gz = -30; gz <= 30; gz += 12) b.grassTufts(gx, gz, 16, 6, onPath);
   }
 
+  // Fun things around town.
+  b.landmark("m-ice-cream-truck", -7.6, -5.2, Math.PI * 0.85, 3.1);
+  b.landmark("n-delivery-van", 10.4, -6.6, 0.15, 2.3);
+  for (const [x, z] of [[31.6, 11.8], [-31, -11.6], [8.6, -12.6]]) b.scenery("m-barrel", x, z, 0.9, 0.45);
+  b.scenery("n-crate", 13.2, -5.6, 0.7, 0.6);
+  b.scenery("n-barrels", 38.4, 4.4, 0.9, 0.6);
+
   const solidMeshes = batch.build("town");
 
   // Hills in the distance: separate, and they don't need shadows.
@@ -267,6 +290,9 @@ export function buildTown(scene: Scene): TownInfo {
     hillBuilder.hill(Math.cos(a) * d, Math.sin(a) * d, 14 + random() * 10, 6 + random() * 8, greens[i % greens.length]);
   }
   sceneryBatch.build("hills");
+  // Wind turbines turning on the hills far away.
+  for (const [x, z, r] of [[52, 52, -0.8], [62, 34, -1.1], [-58, 46, 0.7]]) kit.place("m-wind-turbine", x, z, { rotY: r, height: 18 });
+  solidMeshes.push(...kit.finish());
 
   // Glowing lamp lanterns: one mesh with a bright, unlit material.
   const glow = Mesh.MergeMeshes(b.glowPieces, true, true)!;
@@ -279,6 +305,8 @@ export function buildTown(scene: Scene): TownInfo {
 
   signs.build();
 
+  const animals = createAnimals(scene, kit, nav, random);
+  for (const m of animals.meshes) solidMeshes.push(m);
   const ambient = createAmbient(scene, { x: -24, z: -7.5, rx: 5.2, rz: 3.3 }, { x: 0, z: 0 }, [
     { x: -30, z: -3.5 }, { x: 21, z: 12.8 }, { x: -21, z: 12.8 }, { x: -6, z: -6.2 }, { x: 9, z: 12 },
   ]);
@@ -307,6 +335,7 @@ export function buildTown(scene: Scene): TownInfo {
     update(dt) {
       time += dt;
       ambient.update(dt);
+      animals.update(dt);
       clock();
       flag.rotation.y = Math.sin(time * 1.3) * 0.25;
       flag.scaling.x = 1 + Math.sin(time * 4) * 0.06;

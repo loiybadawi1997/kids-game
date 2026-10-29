@@ -1,0 +1,1994 @@
+{
+ "m-apple": {
+  "vertices": 252,
+  "triangles": 136,
+  "position": 0,
+  "normal": 3024,
+  "color": 3780,
+  "index": 4536,
+  "indexCount": 408,
+  "index32": false,
+  "min": [
+   -0.0981,
+   0,
+   -0.0981
+  ],
+  "max": [
+   0.0981,
+   0.1908,
+   0.0981
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/apple"
+ },
+ "m-banana": {
+  "vertices": 212,
+  "triangles": 104,
+  "position": 5352,
+  "normal": 7896,
+  "color": 8532,
+  "index": 9168,
+  "indexCount": 312,
+  "index32": false,
+  "min": [
+   -0.0688,
+   0,
+   -0.3149
+  ],
+  "max": [
+   0.0688,
+   0.1958,
+   0.3149
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/banana"
+ },
+ "m-barrel": {
+  "vertices": 484,
+  "triangles": 308,
+  "position": 9792,
+  "normal": 15600,
+  "color": 17052,
+  "index": 18504,
+  "indexCount": 924,
+  "index32": false,
+  "min": [
+   -0.38,
+   0,
+   -0.3395
+  ],
+  "max": [
+   0.38,
+   0.6789,
+   0.3395
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/barrel"
+ },
+ "m-bread": {
+  "vertices": 202,
+  "triangles": 148,
+  "position": 20352,
+  "normal": 22776,
+  "color": 23384,
+  "index": 23992,
+  "indexCount": 444,
+  "index32": false,
+  "min": [
+   -0.2212,
+   0,
+   -0.183
+  ],
+  "max": [
+   0.2212,
+   0.0398,
+   0.1829
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/bread"
+ },
+ "m-broccoli": {
+  "vertices": 400,
+  "triangles": 260,
+  "position": 24880,
+  "normal": 29680,
+  "color": 30880,
+  "index": 32080,
+  "indexCount": 780,
+  "index32": false,
+  "min": [
+   -0.1876,
+   0,
+   -0.1876
+  ],
+  "max": [
+   0.1876,
+   0.4216,
+   0.1876
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/broccoli"
+ },
+ "m-cabbage": {
+  "vertices": 276,
+  "triangles": 144,
+  "position": 33640,
+  "normal": 36952,
+  "color": 37780,
+  "index": 38608,
+  "indexCount": 432,
+  "index32": false,
+  "min": [
+   -0.1897,
+   0,
+   -0.2018
+  ],
+  "max": [
+   0.1896,
+   0.3074,
+   0.2018
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cabbage"
+ },
+ "m-cake": {
+  "vertices": 1728,
+  "triangles": 780,
+  "position": 39472,
+  "normal": 60208,
+  "color": 65392,
+  "index": 70576,
+  "indexCount": 2340,
+  "index32": false,
+  "min": [
+   -0.3197,
+   0,
+   -0.3196
+  ],
+  "max": [
+   0.3197,
+   0.2731,
+   0.3196
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cake"
+ },
+ "m-cake-birthday": {
+  "vertices": 2436,
+  "triangles": 1332,
+  "position": 75256,
+  "normal": 104488,
+  "color": 111796,
+  "index": 119104,
+  "indexCount": 3996,
+  "index32": false,
+  "min": [
+   -0.3197,
+   0,
+   -0.3196
+  ],
+  "max": [
+   0.3197,
+   0.3638,
+   0.3196
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cake-birthday"
+ },
+ "m-candy-bar": {
+  "vertices": 130,
+  "triangles": 72,
+  "position": 127096,
+  "normal": 128656,
+  "color": 129048,
+  "index": 129440,
+  "indexCount": 216,
+  "index32": false,
+  "min": [
+   -0.1462,
+   0,
+   -0.0373
+  ],
+  "max": [
+   0.1462,
+   0.0653,
+   0.0373
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/candy-bar"
+ },
+ "m-carrot": {
+  "vertices": 284,
+  "triangles": 148,
+  "position": 129872,
+  "normal": 133280,
+  "color": 134132,
+  "index": 134984,
+  "indexCount": 444,
+  "index32": false,
+  "min": [
+   -0.1716,
+   0,
+   -0.1716
+  ],
+  "max": [
+   0.1716,
+   0.7163,
+   0.1716
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/carrot"
+ },
+ "m-cherries": {
+  "vertices": 236,
+  "triangles": 134,
+  "position": 135872,
+  "normal": 138704,
+  "color": 139412,
+  "index": 140120,
+  "indexCount": 402,
+  "index32": false,
+  "min": [
+   -0.044,
+   0,
+   -0.081
+  ],
+  "max": [
+   0.044,
+   0.1707,
+   0.081
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cherries"
+ },
+ "m-cookie": {
+  "vertices": 114,
+  "triangles": 68,
+  "position": 140924,
+  "normal": 142292,
+  "color": 142636,
+  "index": 142980,
+  "indexCount": 204,
+  "index32": false,
+  "min": [
+   -0.1099,
+   0,
+   -0.0952
+  ],
+  "max": [
+   0.1099,
+   0.0498,
+   0.0952
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cookie"
+ },
+ "m-corn": {
+  "vertices": 252,
+  "triangles": 128,
+  "position": 143388,
+  "normal": 146412,
+  "color": 147168,
+  "index": 147924,
+  "indexCount": 384,
+  "index32": false,
+  "min": [
+   -0.1651,
+   0,
+   -0.1444
+  ],
+  "max": [
+   0.1781,
+   0.3162,
+   0.1559
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/corn"
+ },
+ "m-croissant": {
+  "vertices": 250,
+  "triangles": 162,
+  "position": 148692,
+  "normal": 151692,
+  "color": 152444,
+  "index": 153196,
+  "indexCount": 486,
+  "index32": false,
+  "min": [
+   -0.173,
+   0,
+   -0.2388
+  ],
+  "max": [
+   0.173,
+   0.1937,
+   0.2388
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/croissant"
+ },
+ "m-cupcake": {
+  "vertices": 438,
+  "triangles": 204,
+  "position": 154168,
+  "normal": 159424,
+  "color": 160740,
+  "index": 162056,
+  "indexCount": 612,
+  "index32": false,
+  "min": [
+   -0.1776,
+   0,
+   -0.1538
+  ],
+  "max": [
+   0.1776,
+   0.4238,
+   0.1538
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cupcake"
+ },
+ "m-donut-sprinkles": {
+  "vertices": 396,
+  "triangles": 240,
+  "position": 163280,
+  "normal": 168032,
+  "color": 169220,
+  "index": 170408,
+  "indexCount": 720,
+  "index32": false,
+  "min": [
+   -0.1225,
+   0,
+   -0.1415
+  ],
+  "max": [
+   0.1226,
+   0.095,
+   0.1415
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/donut-sprinkles"
+ },
+ "m-eggplant": {
+  "vertices": 250,
+  "triangles": 130,
+  "position": 171848,
+  "normal": 174848,
+  "color": 175600,
+  "index": 176352,
+  "indexCount": 390,
+  "index32": false,
+  "min": [
+   -0.102,
+   0,
+   -0.1078
+  ],
+  "max": [
+   0.1019,
+   0.4052,
+   0.1078
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/eggplant"
+ },
+ "m-ferris-wheel": {
+  "vertices": 6976,
+  "triangles": 4914,
+  "position": 177132,
+  "normal": 260844,
+  "color": 281772,
+  "index": 302700,
+  "indexCount": 14742,
+  "index32": false,
+  "min": [
+   -0.9567,
+   -1.2383,
+   -0.2525
+  ],
+  "max": [
+   0.9603,
+   1.0458,
+   0.2474
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ferris-wheel"
+ },
+ "m-formation-rock": {
+  "vertices": 464,
+  "triangles": 172,
+  "position": 332184,
+  "normal": 337752,
+  "color": 339144,
+  "index": 340536,
+  "indexCount": 516,
+  "index32": false,
+  "min": [
+   4.6351,
+   0,
+   -10.6688
+  ],
+  "max": [
+   5.6948,
+   1.2247,
+   -9.6014
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/formation-rock"
+ },
+ "m-formation-stone": {
+  "vertices": 464,
+  "triangles": 172,
+  "position": 341568,
+  "normal": 347136,
+  "color": 348528,
+  "index": 349920,
+  "indexCount": 516,
+  "index32": false,
+  "min": [
+   4.6354,
+   0,
+   -9.0091
+  ],
+  "max": [
+   5.695,
+   1.2247,
+   -7.9417
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/formation-stone"
+ },
+ "m-grapes": {
+  "vertices": 1136,
+  "triangles": 668,
+  "position": 350952,
+  "normal": 364584,
+  "color": 367992,
+  "index": 371400,
+  "indexCount": 2004,
+  "index32": false,
+  "min": [
+   -0.1395,
+   0,
+   -0.1193
+  ],
+  "max": [
+   0.1395,
+   0.4226,
+   0.1194
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/grapes"
+ },
+ "m-house-18": {
+  "vertices": 1126,
+  "triangles": 496,
+  "position": 375408,
+  "normal": 388920,
+  "color": 392300,
+  "index": 395680,
+  "indexCount": 1488,
+  "index32": false,
+  "min": [
+   -0.625,
+   0,
+   -0.458
+  ],
+  "max": [
+   0.625,
+   1.1374,
+   0.458
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-18"
+ },
+ "m-house-3": {
+  "vertices": 1352,
+  "triangles": 580,
+  "position": 398656,
+  "normal": 414880,
+  "color": 418936,
+  "index": 422992,
+  "indexCount": 1740,
+  "index32": false,
+  "min": [
+   -0.854,
+   0,
+   -0.458
+  ],
+  "max": [
+   0.854,
+   1.1376,
+   0.4582
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-3"
+ },
+ "m-house-4": {
+  "vertices": 840,
+  "triangles": 344,
+  "position": 426472,
+  "normal": 436552,
+  "color": 439072,
+  "index": 441592,
+  "indexCount": 1032,
+  "index32": false,
+  "min": [
+   -0.617,
+   -0.2899,
+   -0.4606
+  ],
+  "max": [
+   0.6694,
+   0.4477,
+   0.4556
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-4"
+ },
+ "m-house-5": {
+  "vertices": 1662,
+  "triangles": 688,
+  "position": 443656,
+  "normal": 463600,
+  "color": 468588,
+  "index": 473576,
+  "indexCount": 2064,
+  "index32": false,
+  "min": [
+   -0.8682,
+   0,
+   -0.5029
+  ],
+  "max": [
+   0.8682,
+   1.2002,
+   0.503
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-5"
+ },
+ "m-house-7": {
+  "vertices": 872,
+  "triangles": 398,
+  "position": 477704,
+  "normal": 488168,
+  "color": 490784,
+  "index": 493400,
+  "indexCount": 1194,
+  "index32": false,
+  "min": [
+   -0.6,
+   0,
+   -0.405
+  ],
+  "max": [
+   0.6,
+   0.85,
+   0.4052
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-7"
+ },
+ "m-house1": {
+  "vertices": 828,
+  "triangles": 340,
+  "position": 495788,
+  "normal": 505724,
+  "color": 508208,
+  "index": 510692,
+  "indexCount": 1020,
+  "index32": false,
+  "min": [
+   -0.975,
+   -0.4586,
+   -0.6903
+  ],
+  "max": [
+   0.975,
+   0.6479,
+   0.6834
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house1"
+ },
+ "m-ice-cream": {
+  "vertices": 144,
+  "triangles": 84,
+  "position": 512732,
+  "normal": 514460,
+  "color": 514892,
+  "index": 515324,
+  "indexCount": 252,
+  "index32": false,
+  "min": [
+   -0.1176,
+   0,
+   -0.1358
+  ],
+  "max": [
+   0.1177,
+   0.4633,
+   0.1358
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream"
+ },
+ "m-ice-cream-cone": {
+  "vertices": 72,
+  "triangles": 44,
+  "position": 515828,
+  "normal": 516692,
+  "color": 516908,
+  "index": 517124,
+  "indexCount": 132,
+  "index32": false,
+  "min": [
+   -0.0922,
+   0,
+   -0.1065
+  ],
+  "max": [
+   0.0922,
+   0.2982,
+   0.1065
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-cone"
+ },
+ "m-ice-cream-cup": {
+  "vertices": 120,
+  "triangles": 68,
+  "position": 517388,
+  "normal": 518828,
+  "color": 519188,
+  "index": 519548,
+  "indexCount": 204,
+  "index32": false,
+  "min": [
+   -0.1005,
+   0,
+   -0.1161
+  ],
+  "max": [
+   0.1006,
+   0.1805,
+   0.1161
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-cup"
+ },
+ "m-ice-cream-truck": {
+  "vertices": 7418,
+  "triangles": 4218,
+  "position": 519956,
+  "normal": 608972,
+  "color": 631228,
+  "index": 653484,
+  "indexCount": 12654,
+  "index32": false,
+  "min": [
+   -1.1546,
+   0.0087,
+   -0.9106
+  ],
+  "max": [
+   1.3508,
+   2.8173,
+   1.5838
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-truck"
+ },
+ "m-lemon": {
+  "vertices": 204,
+  "triangles": 104,
+  "position": 678792,
+  "normal": 681240,
+  "color": 681852,
+  "index": 682464,
+  "indexCount": 312,
+  "index32": false,
+  "min": [
+   -0.0866,
+   0,
+   -0.1
+  ],
+  "max": [
+   0.0866,
+   0.224,
+   0.1
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/lemon"
+ },
+ "m-loaf": {
+  "vertices": 202,
+  "triangles": 148,
+  "position": 683088,
+  "normal": 685512,
+  "color": 686120,
+  "index": 686728,
+  "indexCount": 444,
+  "index32": false,
+  "min": [
+   -0.2899,
+   0,
+   -0.183
+  ],
+  "max": [
+   0.2899,
+   0.4424,
+   0.183
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf"
+ },
+ "m-loaf-baguette": {
+  "vertices": 224,
+  "triangles": 126,
+  "position": 687616,
+  "normal": 690304,
+  "color": 690976,
+  "index": 691648,
+  "indexCount": 378,
+  "index32": false,
+  "min": [
+   -0.415,
+   0,
+   -0.125
+  ],
+  "max": [
+   0.415,
+   0.2502,
+   0.1252
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf-baguette"
+ },
+ "m-loaf-round": {
+  "vertices": 186,
+  "triangles": 116,
+  "position": 692404,
+  "normal": 694636,
+  "color": 695196,
+  "index": 695756,
+  "indexCount": 348,
+  "index32": false,
+  "min": [
+   -0.3859,
+   0,
+   -0.2572
+  ],
+  "max": [
+   0.3859,
+   0.2933,
+   0.2574
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf-round"
+ },
+ "m-lollypop": {
+  "vertices": 198,
+  "triangles": 108,
+  "position": 696452,
+  "normal": 698828,
+  "color": 699424,
+  "index": 700020,
+  "indexCount": 324,
+  "index32": false,
+  "min": [
+   -0.0193,
+   0,
+   -0.0938
+  ],
+  "max": [
+   0.0193,
+   0.3798,
+   0.0938
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/lollypop"
+ },
+ "m-muffin": {
+  "vertices": 170,
+  "triangles": 84,
+  "position": 700668,
+  "normal": 702708,
+  "color": 703220,
+  "index": 703732,
+  "indexCount": 252,
+  "index32": false,
+  "min": [
+   -0.1524,
+   0,
+   -0.1319
+  ],
+  "max": [
+   0.1524,
+   0.2486,
+   0.132
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/muffin"
+ },
+ "m-orange": {
+  "vertices": 216,
+  "triangles": 116,
+  "position": 704236,
+  "normal": 706828,
+  "color": 707476,
+  "index": 708124,
+  "indexCount": 348,
+  "index32": false,
+  "min": [
+   -0.0848,
+   0,
+   -0.0848
+  ],
+  "max": [
+   0.0848,
+   0.1622,
+   0.0848
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/orange"
+ },
+ "m-palm-long": {
+  "vertices": 528,
+  "triangles": 194,
+  "position": 708820,
+  "normal": 715156,
+  "color": 716740,
+  "index": 718324,
+  "indexCount": 582,
+  "index32": false,
+  "min": [
+   4.8144,
+   0,
+   -7.1682
+  ],
+  "max": [
+   6.3582,
+   2.0231,
+   -5.6245
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/palm-long"
+ },
+ "m-palm-short": {
+  "vertices": 526,
+  "triangles": 194,
+  "position": 719488,
+  "normal": 725800,
+  "color": 727380,
+  "index": 728960,
+  "indexCount": 582,
+  "index32": false,
+  "min": [
+   3.5969,
+   0,
+   -7.1682
+  ],
+  "max": [
+   5.1407,
+   1.5762,
+   -5.6245
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/palm-short"
+ },
+ "m-pear": {
+  "vertices": 268,
+  "triangles": 136,
+  "position": 730124,
+  "normal": 733340,
+  "color": 734144,
+  "index": 734948,
+  "indexCount": 408,
+  "index32": false,
+  "min": [
+   -0.0981,
+   0,
+   -0.0981
+  ],
+  "max": [
+   0.0982,
+   0.2708,
+   0.0982
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pear"
+ },
+ "m-pie": {
+  "vertices": 392,
+  "triangles": 292,
+  "position": 735764,
+  "normal": 740468,
+  "color": 741644,
+  "index": 742820,
+  "indexCount": 876,
+  "index32": false,
+  "min": [
+   -0.4752,
+   0,
+   -0.4752
+  ],
+  "max": [
+   0.4752,
+   0.1498,
+   0.4752
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pie"
+ },
+ "m-pineapple": {
+  "vertices": 360,
+  "triangles": 196,
+  "position": 744572,
+  "normal": 748892,
+  "color": 749972,
+  "index": 751052,
+  "indexCount": 588,
+  "index32": false,
+  "min": [
+   -0.1206,
+   0,
+   -0.1224
+  ],
+  "max": [
+   0.1206,
+   0.4716,
+   0.1224
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pineapple"
+ },
+ "m-popsicle": {
+  "vertices": 324,
+  "triangles": 212,
+  "position": 752228,
+  "normal": 756116,
+  "color": 757088,
+  "index": 758060,
+  "indexCount": 636,
+  "index32": false,
+  "min": [
+   -0.025,
+   0,
+   -0.09
+  ],
+  "max": [
+   0.025,
+   0.49,
+   0.09
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/popsicle"
+ },
+ "m-pumpkin": {
+  "vertices": 368,
+  "triangles": 188,
+  "position": 759332,
+  "normal": 763748,
+  "color": 764852,
+  "index": 765956,
+  "indexCount": 564,
+  "index32": false,
+  "min": [
+   -0.2094,
+   0,
+   -0.2094
+  ],
+  "max": [
+   0.2094,
+   0.2292,
+   0.2094
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pumpkin"
+ },
+ "m-strawberry": {
+  "vertices": 272,
+  "triangles": 148,
+  "position": 767084,
+  "normal": 770348,
+  "color": 771164,
+  "index": 771980,
+  "indexCount": 444,
+  "index32": false,
+  "min": [
+   -0.0598,
+   0,
+   -0.0598
+  ],
+  "max": [
+   0.0598,
+   0.177,
+   0.0598
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/strawberry"
+ },
+ "m-sundae": {
+  "vertices": 764,
+  "triangles": 348,
+  "position": 772868,
+  "normal": 782036,
+  "color": 784328,
+  "index": 786620,
+  "indexCount": 1044,
+  "index32": false,
+  "min": [
+   -0.1116,
+   0,
+   -0.1289
+  ],
+  "max": [
+   0.1115,
+   0.6679,
+   0.1287
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/sundae"
+ },
+ "m-tomato": {
+  "vertices": 232,
+  "triangles": 124,
+  "position": 788708,
+  "normal": 791492,
+  "color": 792188,
+  "index": 792884,
+  "indexCount": 372,
+  "index32": false,
+  "min": [
+   -0.0848,
+   0,
+   -0.0848
+  ],
+  "max": [
+   0.0848,
+   0.1376,
+   0.0848
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tomato"
+ },
+ "m-tower": {
+  "vertices": 2654,
+  "triangles": 1004,
+  "position": 793628,
+  "normal": 825476,
+  "color": 833440,
+  "index": 841404,
+  "indexCount": 3012,
+  "index32": false,
+  "min": [
+   -7.5473,
+   0,
+   -3.2166
+  ],
+  "max": [
+   -4.2243,
+   3.715,
+   0.1238
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tower"
+ },
+ "m-tree-big": {
+  "vertices": 620,
+  "triangles": 556,
+  "position": 847428,
+  "normal": 854868,
+  "color": 856728,
+  "index": 858588,
+  "indexCount": 1668,
+  "index32": false,
+  "min": [
+   -0.1052,
+   0,
+   -0.1182
+  ],
+  "max": [
+   0.1053,
+   0.767,
+   0.1183
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tree-big"
+ },
+ "m-tree-small": {
+  "vertices": 610,
+  "triangles": 556,
+  "position": 861924,
+  "normal": 869244,
+  "color": 871076,
+  "index": 872908,
+  "indexCount": 1668,
+  "index32": false,
+  "min": [
+   -0.1299,
+   0,
+   -0.1491
+  ],
+  "max": [
+   0.13,
+   0.7,
+   0.1492
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tree-small"
+ },
+ "m-watermelon": {
+  "vertices": 1632,
+  "triangles": 1376,
+  "position": 876244,
+  "normal": 895828,
+  "color": 900724,
+  "index": 905620,
+  "indexCount": 4128,
+  "index32": false,
+  "min": [
+   -0.2277,
+   0,
+   -0.2277
+  ],
+  "max": [
+   0.2277,
+   0.4761,
+   0.2277
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/watermelon"
+ },
+ "m-wind-turbine": {
+  "vertices": 3386,
+  "triangles": 2586,
+  "position": 913876,
+  "normal": 954508,
+  "color": 964668,
+  "index": 974828,
+  "indexCount": 7758,
+  "index32": false,
+  "min": [
+   -2.5015,
+   -0.0034,
+   -0.6004
+  ],
+  "max": [
+   1.7134,
+   6.8068,
+   0.7326
+  ],
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/wind-turbine"
+ },
+ "n-tree-oak": {
+  "vertices": 324,
+  "triangles": 196,
+  "position": 990344,
+  "normal": 994232,
+  "color": 995204,
+  "index": 996176,
+  "indexCount": 588,
+  "index32": false,
+  "min": [
+   -0.3203,
+   -0.05,
+   -0.3699
+  ],
+  "max": [
+   0.3203,
+   1.1762,
+   0.3699
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tree-pine": {
+  "vertices": 328,
+  "triangles": 230,
+  "position": 997352,
+  "normal": 1001288,
+  "color": 1002272,
+  "index": 1003256,
+  "indexCount": 690,
+  "index32": false,
+  "min": [
+   -0.266,
+   -0.05,
+   -0.266
+  ],
+  "max": [
+   0.266,
+   1.4958,
+   0.266
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tree-pine-tall": {
+  "vertices": 224,
+  "triangles": 134,
+  "position": 1004636,
+  "normal": 1007324,
+  "color": 1007996,
+  "index": 1008668,
+  "indexCount": 402,
+  "index32": false,
+  "min": [
+   -0.1791,
+   -0.05,
+   -0.1939
+  ],
+  "max": [
+   0.2071,
+   1.4796,
+   0.1981
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tree-fat": {
+  "vertices": 96,
+  "triangles": 50,
+  "position": 1009472,
+  "normal": 1010624,
+  "color": 1010912,
+  "index": 1011200,
+  "indexCount": 150,
+  "index32": false,
+  "min": [
+   -0.3775,
+   -0.05,
+   -0.327
+  ],
+  "max": [
+   0.3775,
+   1.1004,
+   0.327
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tree-autumn": {
+  "vertices": 384,
+  "triangles": 228,
+  "position": 1011500,
+  "normal": 1016108,
+  "color": 1017260,
+  "index": 1018412,
+  "indexCount": 684,
+  "index32": false,
+  "min": [
+   -0.3775,
+   -0.05,
+   -0.3269
+  ],
+  "max": [
+   0.3775,
+   1.6579,
+   0.3269
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tree-dark": {
+  "vertices": 192,
+  "triangles": 114,
+  "position": 1019780,
+  "normal": 1022084,
+  "color": 1022660,
+  "index": 1023236,
+  "indexCount": 342,
+  "index32": false,
+  "min": [
+   -0.3775,
+   -0.05,
+   -0.3269
+  ],
+  "max": [
+   0.3775,
+   1.6579,
+   0.3269
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-bush": {
+  "vertices": 80,
+  "triangles": 32,
+  "position": 1023920,
+  "normal": 1024880,
+  "color": 1025120,
+  "index": 1025360,
+  "indexCount": 96,
+  "index32": false,
+  "min": [
+   -0.198,
+   -0.05,
+   -0.198
+  ],
+  "max": [
+   0.198,
+   0.1944,
+   0.198
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-bush-large": {
+  "vertices": 132,
+  "triangles": 60,
+  "position": 1025552,
+  "normal": 1027136,
+  "color": 1027532,
+  "index": 1027928,
+  "indexCount": 180,
+  "index32": false,
+  "min": [
+   -0.1872,
+   -0.05,
+   -0.1678
+  ],
+  "max": [
+   0.1872,
+   0.1929,
+   0.1678
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-flower-red": {
+  "vertices": 134,
+  "triangles": 76,
+  "position": 1028288,
+  "normal": 1029896,
+  "color": 1030300,
+  "index": 1030704,
+  "indexCount": 228,
+  "index32": false,
+  "min": [
+   -0.1045,
+   -0.05,
+   -0.0905
+  ],
+  "max": [
+   0.0546,
+   0.2425,
+   0.0905
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-rock-large": {
+  "vertices": 142,
+  "triangles": 80,
+  "position": 1031160,
+  "normal": 1032864,
+  "color": 1033292,
+  "index": 1033720,
+  "indexCount": 240,
+  "index32": false,
+  "min": [
+   -0.3924,
+   -0.05,
+   -0.5077
+  ],
+  "max": [
+   0.3924,
+   0.2098,
+   0.5077
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-rock-small": {
+  "vertices": 30,
+  "triangles": 16,
+  "position": 1034200,
+  "normal": 1034560,
+  "color": 1034652,
+  "index": 1034744,
+  "indexCount": 48,
+  "index32": false,
+  "min": [
+   -0.1804,
+   -0.05,
+   -0.1804
+  ],
+  "max": [
+   0.1804,
+   0.1412,
+   0.1804
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-rock-tall": {
+  "vertices": 228,
+  "triangles": 136,
+  "position": 1034840,
+  "normal": 1037576,
+  "color": 1038260,
+  "index": 1038944,
+  "indexCount": 408,
+  "index32": false,
+  "min": [
+   -0.4915,
+   -0.05,
+   -0.3416
+  ],
+  "max": [
+   0.4915,
+   0.9459,
+   0.3416
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-stump": {
+  "vertices": 96,
+  "triangles": 56,
+  "position": 1039760,
+  "normal": 1040912,
+  "color": 1041200,
+  "index": 1041488,
+  "indexCount": 168,
+  "index32": false,
+  "min": [
+   -0.1607,
+   -0.05,
+   -0.1855
+  ],
+  "max": [
+   0.1607,
+   0.1565,
+   0.1855
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-log": {
+  "vertices": 152,
+  "triangles": 96,
+  "position": 1041824,
+  "normal": 1043648,
+  "color": 1044104,
+  "index": 1044560,
+  "indexCount": 288,
+  "index32": false,
+  "min": [
+   -0.5,
+   -0.05,
+   -0.2527
+  ],
+  "max": [
+   0.5,
+   0.3667,
+   0.2966
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-mushroom-red": {
+  "vertices": 84,
+  "triangles": 48,
+  "position": 1045136,
+  "normal": 1046144,
+  "color": 1046396,
+  "index": 1046648,
+  "indexCount": 144,
+  "index32": false,
+  "min": [
+   -0.0611,
+   -0.05,
+   -0.0677
+  ],
+  "max": [
+   0.0624,
+   0.2005,
+   0.0749
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-crate": {
+  "vertices": 720,
+  "triangles": 628,
+  "position": 1046936,
+  "normal": 1055576,
+  "color": 1057736,
+  "index": 1059896,
+  "indexCount": 1884,
+  "index32": false,
+  "min": [
+   -0.2795,
+   -0.02,
+   -0.5
+  ],
+  "max": [
+   0.27,
+   0.35,
+   0.5
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-barrels": {
+  "vertices": 464,
+  "triangles": 268,
+  "position": 1063664,
+  "normal": 1069232,
+  "color": 1070624,
+  "index": 1072016,
+  "indexCount": 804,
+  "index32": false,
+  "min": [
+   1.725,
+   0,
+   1.2518
+  ],
+  "max": [
+   2.275,
+   0.35,
+   1.7482
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-tent": {
+  "vertices": 332,
+  "triangles": 232,
+  "position": 1073624,
+  "normal": 1077608,
+  "color": 1078604,
+  "index": 1079600,
+  "indexCount": 696,
+  "index32": false,
+  "min": [
+   -0.4375,
+   -0.05,
+   -0.3482
+  ],
+  "max": [
+   0.4375,
+   0.5111,
+   0.3182
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-campfire": {
+  "vertices": 396,
+  "triangles": 264,
+  "position": 1080992,
+  "normal": 1085744,
+  "color": 1086932,
+  "index": 1088120,
+  "indexCount": 792,
+  "index32": false,
+  "min": [
+   -0.25,
+   -0.05,
+   -0.2577
+  ],
+  "max": [
+   0.2909,
+   0.0278,
+   0.2577
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-coin": {
+  "vertices": 760,
+  "triangles": 396,
+  "position": 1089704,
+  "normal": 1098824,
+  "color": 1101104,
+  "index": 1103384,
+  "indexCount": 1188,
+  "index32": false,
+  "min": [
+   -0.3684,
+   -0.3688,
+   -0.0906
+  ],
+  "max": [
+   0.3684,
+   0.3688,
+   0.0906
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-gem-pink": {
+  "vertices": 80,
+  "triangles": 44,
+  "position": 1105760,
+  "normal": 1106720,
+  "color": 1106960,
+  "index": 1107200,
+  "indexCount": 132,
+  "index32": false,
+  "min": [
+   -0.2115,
+   -0.3626,
+   -0.2115
+  ],
+  "max": [
+   0.2115,
+   0.3626,
+   0.2115
+  ],
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-cat": {
+  "vertices": 2276,
+  "triangles": 2448,
+  "position": 1107464,
+  "normal": 1134776,
+  "color": 1141604,
+  "index": 1148432,
+  "indexCount": 7344,
+  "index32": false,
+  "min": [
+   -60.7135,
+   -86.462,
+   -100
+  ],
+  "max": [
+   60.7135,
+   86.462,
+   100
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-pug": {
+  "vertices": 1284,
+  "triangles": 644,
+  "position": 1163120,
+  "normal": 1178528,
+  "color": 1182380,
+  "index": 1186232,
+  "indexCount": 1932,
+  "index32": false,
+  "min": [
+   -41.4472,
+   -75.7805,
+   -100
+  ],
+  "max": [
+   41.4472,
+   75.7805,
+   100
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-shiba": {
+  "vertices": 3966,
+  "triangles": 1950,
+  "position": 1190096,
+  "normal": 1237688,
+  "color": 1249588,
+  "index": 1261488,
+  "indexCount": 5850,
+  "index32": false,
+  "min": [
+   -27.1279,
+   -78.4051,
+   -99.9384
+  ],
+  "max": [
+   27.1279,
+   78.4051,
+   100.0616
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-husky": {
+  "vertices": 3900,
+  "triangles": 1920,
+  "position": 1273188,
+  "normal": 1319988,
+  "color": 1331688,
+  "index": 1343388,
+  "indexCount": 5760,
+  "index32": false,
+  "min": [
+   -25.4555,
+   -82.0551,
+   -99.9384
+  ],
+  "max": [
+   25.4555,
+   82.0551,
+   100.0616
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-fox": {
+  "vertices": 3752,
+  "triangles": 1848,
+  "position": 1354908,
+  "normal": 1399932,
+  "color": 1411188,
+  "index": 1422444,
+  "indexCount": 5544,
+  "index32": false,
+  "min": [
+   -18.0425,
+   -45.5,
+   -100
+  ],
+  "max": [
+   18.0425,
+   45.5001,
+   100
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-deer": {
+  "vertices": 4276,
+  "triangles": 2096,
+  "position": 1433532,
+  "normal": 1484844,
+  "color": 1497672,
+  "index": 1510500,
+  "indexCount": 6288,
+  "index32": false,
+  "min": [
+   -33.1828,
+   -97.1923,
+   -100
+  ],
+  "max": [
+   33.1828,
+   97.1923,
+   100
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-frog": {
+  "vertices": 9840,
+  "triangles": 4920,
+  "position": 1523076,
+  "normal": 1641156,
+  "color": 1670676,
+  "index": 1700196,
+  "indexCount": 14760,
+  "index32": false,
+  "min": [
+   -100.0115,
+   -42.8267,
+   -91.7234
+  ],
+  "max": [
+   99.9885,
+   42.9242,
+   91.7234
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-crab": {
+  "vertices": 2207,
+  "triangles": 3624,
+  "position": 1729716,
+  "normal": 1756200,
+  "color": 1762824,
+  "index": 1769448,
+  "indexCount": 10872,
+  "index32": false,
+  "min": [
+   -100,
+   -59.444,
+   -54.5
+  ],
+  "max": [
+   100,
+   59.444,
+   54.5
+  ],
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ "n-delivery-van": {
+  "vertices": 2644,
+  "triangles": 2476,
+  "position": 1791192,
+  "normal": 1822920,
+  "color": 1830852,
+  "index": 1838784,
+  "indexCount": 7428,
+  "index32": false,
+  "min": [
+   -0.7499,
+   0,
+   -1.65
+  ],
+  "max": [
+   0.7499,
+   1.6499,
+   1.6
+  ],
+  "pack": "Kenney Car Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ }
+}

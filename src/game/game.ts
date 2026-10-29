@@ -14,6 +14,8 @@ import { ShopInfo, TownInfo, buildTown } from "./town";
 import { Townsperson, createTownsfolk } from "./townsfolk";
 import { Walker } from "./walker";
 import { makeRandom } from "./props";
+import { Kit } from "./kit";
+import { createVertexColorMaterial } from "./meshKit";
 import { Graphics, QualitySetting, guessQuality } from "./graphics";
 import { SpeechBubbles } from "../ui/speechBubbles";
 import { TouchControls } from "../ui/joystick";
@@ -63,12 +65,24 @@ export class Game {
   private playerShop: ShopInfo;
   private nearShop = false;
 
-  constructor(
+  /** Load the model kit, then build the game. */
+  static async create(engine: Engine, canvas: HTMLCanvasElement, qualitySetting: QualitySetting): Promise<Game> {
+    const scene = new Scene(engine);
+    // Kenney/Quaternius models are drawn from both sides (some of their faces point the other way).
+    const kitMaterial = createVertexColorMaterial(scene, "kit", 0);
+    kitMaterial.backFaceCulling = false;
+    kitMaterial.twoSidedLighting = true;
+    const kit = await Kit.load(scene, kitMaterial);
+    return new Game(engine, canvas, qualitySetting, scene, kit);
+  }
+
+  private constructor(
     private engine: Engine,
     private canvas: HTMLCanvasElement,
     qualitySetting: QualitySetting,
+    scene: Scene,
+    kit: Kit,
   ) {
-    const scene = new Scene(engine);
     this.scene = scene;
     // Small speed-up: we work out taps ourselves, so Babylon doesn't need to test meshes under the finger.
     scene.skipPointerMovePicking = true;
@@ -77,7 +91,7 @@ export class Game {
 
     const random = makeRandom(42);
     this.sky = createSky(scene, random);
-    const town = buildTown(scene);
+    const town = buildTown(scene, kit);
     this.town = town;
     this.playerShop = town.shops.find((s) => s.kind === PLAYER_SHOP_KIND)!;
 

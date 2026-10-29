@@ -1,0 +1,666 @@
+[
+ {
+  "name": "m-apple",
+  "file": "market-assets/files/models/apple/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/apple"
+ },
+ {
+  "name": "m-banana",
+  "file": "market-assets/files/models/banana/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/banana"
+ },
+ {
+  "name": "m-barrel",
+  "file": "market-assets/files/models/barrel/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/barrel"
+ },
+ {
+  "name": "m-bread",
+  "file": "market-assets/files/models/bread/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/bread"
+ },
+ {
+  "name": "m-broccoli",
+  "file": "market-assets/files/models/broccoli/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/broccoli"
+ },
+ {
+  "name": "m-cabbage",
+  "file": "market-assets/files/models/cabbage/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cabbage"
+ },
+ {
+  "name": "m-cake",
+  "file": "market-assets/files/models/cake/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cake"
+ },
+ {
+  "name": "m-cake-birthday",
+  "file": "market-assets/files/models/cake-birthday/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cake-birthday"
+ },
+ {
+  "name": "m-candy-bar",
+  "file": "market-assets/files/models/candy-bar/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/candy-bar"
+ },
+ {
+  "name": "m-carrot",
+  "file": "market-assets/files/models/carrot/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/carrot"
+ },
+ {
+  "name": "m-cherries",
+  "file": "market-assets/files/models/cherries/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cherries"
+ },
+ {
+  "name": "m-cookie",
+  "file": "market-assets/files/models/cookie/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cookie"
+ },
+ {
+  "name": "m-corn",
+  "file": "market-assets/files/models/corn/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/corn"
+ },
+ {
+  "name": "m-croissant",
+  "file": "market-assets/files/models/croissant/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/croissant"
+ },
+ {
+  "name": "m-cupcake",
+  "file": "market-assets/files/models/cupcake/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/cupcake"
+ },
+ {
+  "name": "m-donut-sprinkles",
+  "file": "market-assets/files/models/donut-sprinkles/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/donut-sprinkles"
+ },
+ {
+  "name": "m-eggplant",
+  "file": "market-assets/files/models/eggplant/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/eggplant"
+ },
+ {
+  "name": "m-ferris-wheel",
+  "file": "market-assets/files/models/ferris-wheel/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ferris-wheel"
+ },
+ {
+  "name": "m-formation-rock",
+  "file": "market-assets/files/models/formation-rock/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/formation-rock"
+ },
+ {
+  "name": "m-formation-stone",
+  "file": "market-assets/files/models/formation-stone/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/formation-stone"
+ },
+ {
+  "name": "m-grapes",
+  "file": "market-assets/files/models/grapes/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/grapes"
+ },
+ {
+  "name": "m-house-18",
+  "file": "market-assets/files/models/house-18/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-18"
+ },
+ {
+  "name": "m-house-3",
+  "file": "market-assets/files/models/house-3/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-3"
+ },
+ {
+  "name": "m-house-4",
+  "file": "market-assets/files/models/house-4/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-4"
+ },
+ {
+  "name": "m-house-5",
+  "file": "market-assets/files/models/house-5/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-5"
+ },
+ {
+  "name": "m-house-7",
+  "file": "market-assets/files/models/house-7/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house-7"
+ },
+ {
+  "name": "m-house1",
+  "file": "market-assets/files/models/house1/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/house1"
+ },
+ {
+  "name": "m-ice-cream",
+  "file": "market-assets/files/models/ice-cream/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream"
+ },
+ {
+  "name": "m-ice-cream-cone",
+  "file": "market-assets/files/models/ice-cream-cone/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-cone"
+ },
+ {
+  "name": "m-ice-cream-cup",
+  "file": "market-assets/files/models/ice-cream-cup/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-cup"
+ },
+ {
+  "name": "m-ice-cream-truck",
+  "file": "market-assets/files/models/ice-cream-truck/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/ice-cream-truck"
+ },
+ {
+  "name": "m-lemon",
+  "file": "market-assets/files/models/lemon/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/lemon"
+ },
+ {
+  "name": "m-loaf",
+  "file": "market-assets/files/models/loaf/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf"
+ },
+ {
+  "name": "m-loaf-baguette",
+  "file": "market-assets/files/models/loaf-baguette/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf-baguette"
+ },
+ {
+  "name": "m-loaf-round",
+  "file": "market-assets/files/models/loaf-round/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/loaf-round"
+ },
+ {
+  "name": "m-lollypop",
+  "file": "market-assets/files/models/lollypop/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/lollypop"
+ },
+ {
+  "name": "m-muffin",
+  "file": "market-assets/files/models/muffin/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/muffin"
+ },
+ {
+  "name": "m-orange",
+  "file": "market-assets/files/models/orange/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/orange"
+ },
+ {
+  "name": "m-palm-long",
+  "file": "market-assets/files/models/palm-long/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/palm-long"
+ },
+ {
+  "name": "m-palm-short",
+  "file": "market-assets/files/models/palm-short/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/palm-short"
+ },
+ {
+  "name": "m-pear",
+  "file": "market-assets/files/models/pear/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pear"
+ },
+ {
+  "name": "m-pie",
+  "file": "market-assets/files/models/pie/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pie"
+ },
+ {
+  "name": "m-pineapple",
+  "file": "market-assets/files/models/pineapple/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pineapple"
+ },
+ {
+  "name": "m-popsicle",
+  "file": "market-assets/files/models/popsicle/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/popsicle"
+ },
+ {
+  "name": "m-pumpkin",
+  "file": "market-assets/files/models/pumpkin/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/pumpkin"
+ },
+ {
+  "name": "m-strawberry",
+  "file": "market-assets/files/models/strawberry/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/strawberry"
+ },
+ {
+  "name": "m-sundae",
+  "file": "market-assets/files/models/sundae/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/sundae"
+ },
+ {
+  "name": "m-tomato",
+  "file": "market-assets/files/models/tomato/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tomato"
+ },
+ {
+  "name": "m-tower",
+  "file": "market-assets/files/models/tower/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tower"
+ },
+ {
+  "name": "m-tree-big",
+  "file": "market-assets/files/models/tree-big/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tree-big"
+ },
+ {
+  "name": "m-tree-small",
+  "file": "market-assets/files/models/tree-small/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/tree-small"
+ },
+ {
+  "name": "m-watermelon",
+  "file": "market-assets/files/models/watermelon/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/watermelon"
+ },
+ {
+  "name": "m-wind-turbine",
+  "file": "market-assets/files/models/wind-turbine/model.gltf",
+  "pack": "pmndrs market (market.pmnd.rs)",
+  "author": "Creative Trio",
+  "license": "CC0-1.0",
+  "source": "https://github.com/pmndrs/market-assets/tree/main/files/models/wind-turbine"
+ },
+ {
+  "name": "n-tree-oak",
+  "file": "netforge/library/lowpoly/tree_oak.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tree-pine",
+  "file": "netforge/library/lowpoly/tree_pine.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tree-pine-tall",
+  "file": "netforge/library/lowpoly/tree_pine_tall.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tree-fat",
+  "file": "netforge/library/lowpoly/tree_fat.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tree-autumn",
+  "file": "netforge/library/lowpoly/tree_autumn.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tree-dark",
+  "file": "netforge/library/lowpoly/tree_dark.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-bush",
+  "file": "netforge/library/lowpoly/bush.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-bush-large",
+  "file": "netforge/library/lowpoly/bush_large.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-flower-red",
+  "file": "netforge/library/lowpoly/flower_red.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-rock-large",
+  "file": "netforge/library/lowpoly/rock_large.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-rock-small",
+  "file": "netforge/library/lowpoly/rock_small.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-rock-tall",
+  "file": "netforge/library/lowpoly/rock_tall.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-stump",
+  "file": "netforge/library/lowpoly/stump.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-log",
+  "file": "netforge/library/lowpoly/log.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-mushroom-red",
+  "file": "netforge/library/lowpoly/mushroom_red.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-crate",
+  "file": "netforge/library/lowpoly/crate.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-barrels",
+  "file": "netforge/library/lowpoly/barrels.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-tent",
+  "file": "netforge/library/lowpoly/tent.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-campfire",
+  "file": "netforge/library/lowpoly/campfire.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-coin",
+  "file": "netforge/library/lowpoly/coin.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-gem-pink",
+  "file": "netforge/library/lowpoly/gem_pink.glb",
+  "pack": "Kenney Nature Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-cat",
+  "file": "netforge/library/lowpoly/cat.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-pug",
+  "file": "netforge/library/lowpoly/pug.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-shiba",
+  "file": "netforge/library/lowpoly/shiba.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-husky",
+  "file": "netforge/library/lowpoly/husky.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-fox",
+  "file": "netforge/library/lowpoly/fox.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-deer",
+  "file": "netforge/library/lowpoly/deer.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-frog",
+  "file": "netforge/library/lowpoly/frog.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-crab",
+  "file": "netforge/library/lowpoly/crab.glb",
+  "pack": "Quaternius animals (via @netforge/asset-library-files)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ },
+ {
+  "name": "n-delivery-van",
+  "file": "netforge/library/lowpoly/delivery_van.glb",
+  "pack": "Kenney Car Kit (via @netforge/asset-library-files)",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "source": "https://www.npmjs.com/package/@netforge/asset-library-files"
+ }
+]

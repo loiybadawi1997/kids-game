@@ -86,5 +86,6 @@ Do not start a later step unless asked.
 - [x] Step 3: Profiles and avatar
 - [x] Extra: Forge3D heroes replace the kid avatars (see docs/CHARACTERS.md)
 - [x] Step 4: Market Street shop
+- [x] Extra: CC0 Kenney/Quaternius models in town (houses, nature, food, animals, landmarks), joystick controls
 - [ ] Step 5: Upgrades and decoration
 - [ ] Step 6: Device testing
