@@ -2530,3 +2530,13 @@ button.ss-slot {
   width: fit-content;
   margin: 4px auto 0;
 }
+
+/* Centre the island panel's content, but let it scroll from the top on short phones. */
+.isl-panel {
+  justify-content: flex-start;
+}
+
+.isl-panel > * {
+  margin-top: auto;
+  margin-bottom: auto;
+}
