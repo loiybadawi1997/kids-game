@@ -33,7 +33,8 @@ Characters are **not** described here. They are defined in **`docs/CHARACTERS.md
 | 4. Market Street shop | ✅ Done | Fruit Shop day: maths for Middle, stock, prices and profit for Big, coin rewards |
 | 5. Upgrades and decoration | ⬜ Next | Spend coins on shop upgrades and house decoration |
 | 6. Device testing | ⬜ Later | Testing and fixes on real phones |
-| 7. More districts | ⬜ Later | Inventor's Workshop, Explorer's Island, Time Gate, family multiplayer |
+| Extra: learning districts | ✅ Done | Inventor's Workshop (robot coding), Explorer's Island (journal and science puzzles), Time Gate (history quests), a 🗺️ places menu |
+| 7. Family multiplayer | ⬜ Later | The first and only backend, family-only |
 
 - **Live address:** https://loiybadawi1997.github.io/kids-game/
 - **Code:** GitHub repo `loiybadawi1997/kids-game`. Every push to `main` deploys.
@@ -225,7 +226,7 @@ World units are about metres. North is +Z, east is +X. An object's front (door) 
 | --- | --- | --- |
 | 🍎 Fruit Shop (the children's shop) | fruit | big apple |
 | 🥐 Bakery | bread | loaf |
-| 🧸 Toy Shop | balls and a box | ball and block |
+| 🤖 Workshop (was the Toy Shop) | balls and a box | ball and block |
 | 🌸 Flowers | potted flowers | big flower |
 | 🍦 Ice Cream | cones | giant cone |
 | 📚 Books | books | stack of books |
@@ -262,7 +263,7 @@ World units are about metres. North is +Z, east is +X. An object's front (door) 
 - **Tapping:**
   - tap the ground: the player walks there along a path, and a yellow ring pops up where you tapped
   - tap a person (forgiving screen-space radius of about 70 px): walk over, stop about 1.9 m away, both turn and wave, and the person says their next line in an HTML speech bubble above their head (name plus a short line with an emoji, about 3.5 s)
-- **Townsfolk:** wander between favourite spots in town or nearby random spots. Two shopkeepers stand outside the Bakery and Toy Shop, face the street and wave now and then. Names, looks and lines come from `Characters.md`.
+- **Townsfolk:** wander between favourite spots in town or nearby random spots. A shopkeeper stands outside the Bakery, faces the street and wave now and then. Names, looks and lines come from `Characters.md`.
 - **HUD:**
   - top left: player chip (portrait, name, coins); tapping it opens the profile picker
   - bottom left: 🏠 (walk to my house) and 🛒 (walk to my shop)
@@ -362,6 +363,16 @@ Middle sells only the first six. Big sells all eight.
 - **Back in town:** the coin counter bounces, the player waves, a toast says "🪙 +29 coins! Great job, Sam! 🎉", and the shop record is updated (days, best profit).
 - **Shop money and the child's coins are separate.** Shop money is "💰 in the till"; the child's own coins are the reward.
 
+## 10b. The learning districts
+
+All three are 2D screens over the town (like the shop), reached from the 🗺️ places menu, the floating icons, or by walking onto the glowing ring at each place. Each has a Middle and a Big level and always ends with a reward screen and coins. Wrong answers just grey out (no telling off); after a few tries the answer is shown. Progress is saved in `profile.learn` (`workshop` puzzle number per level, `journal` ids, finished `quests`) and prizes in `profile.items`.
+
+- **🤖 Inventor's Workshop** (`src/learn/workshop*.ts`), in the old Toy Shop on Market Street. A grid with the robot 🤖, walls 🧱, gears ⚙️ and the battery 🔋. Tap blocks to add them to the program (tapping a loop's box puts the next blocks inside it; tapping a block in the program takes it out), then ▶️ Run: the robot moves step by step. Bumping a wall or stopping early gives a hint and the program stays to fix. Stars: reached the battery, all gears, used no more than the best number of blocks. 8 puzzles per level, 4 per visit, 4 to 8 coins each.
+  - Middle blocks: ⬆️ Go, ↩️ Turn left, ↪️ Turn right, 🔁 Repeat ×N (nestable).
+  - Big blocks: the same plus 🔁 Until 🔋 and ❓ If 🧱 ahead (the edge counts as a wall).
+- **🏝️ Explorer's Island** (`src/learn/island*.ts`), at the pond in the park (with a little palm island). A map with six ❓ hiding places, three on each side of a broken bridge. Each hides one of 24 discoveries (10 animals, 6 plants, 8 fossils and rocks; unfound ones first): a fact and a question (Middle and Big versions), then it goes into the 📔 journal. The bridge opens after a science puzzle: Middle sorts six things into float or sink (with a water tank animation and a reason), Big balances a seesaw three times (weight × distance). About 25–30 coins a trip.
+- **⏳ Time Gate** (`src/learn/timeGate*.ts`), a swirling portal in front of the Town Hall. Four places: Ancient Egypt, al-Andalus (Córdoba and the Alhambra), Baghdad's House of Wisdom, the Silk Road. Each has a guide and four scenes: a short story and a question, or (Big, sometimes) putting steps in order. First finish: 12 coins plus 2 per first-try answer and a rare decoration (🐈 golden cat statue, ⛲ Alhambra fountain, 🔭 astrolabe, 🏮 silk lantern); repeats give 6 plus 2 per first try.
+
 ## 11. Next steps (build only when asked)
 
 5. **Shop upgrades and house decoration with coins:**
@@ -370,7 +381,7 @@ Middle sells only the first six. Big sells all eight.
    - avatar outfits (see `Characters.md`)
    - fair prices; spending is always optional and never pushed
 6. **Device testing and fixes:** real iPhones, Android phones and tablets, with older Android phones on Low.
-7. **Later districts:** Inventor's Workshop, then Explorer's Island, then Time Gate, then family multiplayer (the first and only backend, family-only).
+7. **Later:** family multiplayer (the first and only backend, family-only). The three districts are built (see section 10b); they can grow with more puzzles, discoveries and places, and the won decorations (`profile.items`) are waiting for Step 5.
 
 ## 12. Project files and conventions
 

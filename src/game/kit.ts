@@ -131,12 +131,19 @@ export class Kit {
   place(name: string, x: number, z: number, opts: { rotY?: number; height?: number; scale?: number; y?: number } = {}): number {
     const e = this.entries[name];
     const s = opts.scale ?? (opts.height ? opts.height / (e.max[1] - e.min[1]) : 1);
-    // Models stand on their lowest point (z is mirrored when loading, so flip the stored bounds).
-    const m = Matrix.Compose(
+    // Models stand on their lowest point.
+    let m = Matrix.Compose(
       new Vector3(s, s, s),
       Quaternion.RotationAxis(Vector3.Up(), opts.rotY ?? 0),
       new Vector3(x, (opts.y ?? 0) - e.min[1] * s, z),
     );
+    // A few models are stored far from their own centre (palms, rock formations): move them back
+    // so they stand at (x, z). z is mirrored when loading, so its centre flips too.
+    const cx = (e.min[0] + e.max[0]) / 2;
+    const cz = -(e.min[2] + e.max[2]) / 2;
+    if (Math.abs(cx) > 0.25 * (e.max[0] - e.min[0]) || Math.abs(cz) > 0.25 * (e.max[2] - e.min[2])) {
+      m = Matrix.Translation(-cx, 0, -cz).multiply(m);
+    }
     let list = this.matrices.get(name);
     if (!list) this.matrices.set(name, (list = []));
     list.push(...m.asArray());

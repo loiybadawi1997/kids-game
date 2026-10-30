@@ -6,6 +6,9 @@ import { VertexBuffer } from "@babylonjs/core/Buffers/buffer";
 import { Color3 } from "@babylonjs/core/Maths/math.color";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
+import { CreateTorus } from "@babylonjs/core/Meshes/Builders/torusBuilder";
+import { CreateDisc } from "@babylonjs/core/Meshes/Builders/discBuilder";
+import { DynamicTexture } from "@babylonjs/core/Materials/Textures/dynamicTexture";
 import { StaticBatch, box, createVertexColorMaterial } from "./meshKit";
 import { NavGrid } from "./navGrid";
 import { Building, COLORS, HouseStyle, PropBuilder, ShopKind, ShopStyle, makeRandom } from "./props";
@@ -23,6 +26,19 @@ export interface ShopInfo {
   rotY: number;
 }
 
+/** The places where children play a learning activity. */
+export type ActivityId = "shop" | "workshop" | "island" | "timegate";
+
+export interface ActivitySpot {
+  id: ActivityId;
+  name: string;
+  emoji: string;
+  /** Where the child stands to start the activity. */
+  spot: Vector3;
+  /** A point they look at while standing there. */
+  lookAt: Vector3;
+}
+
 export interface HomeInfo {
   /** Just outside the front door. */
   door: Vector3;
@@ -36,6 +52,8 @@ export interface TownInfo {
   /** Spots where townsfolk like to hang out. */
   hangouts: { x: number; z: number }[];
   shops: ShopInfo[];
+  /** Market Street shop, Inventor's Workshop, Explorer's Island and the Time Gate. */
+  activities: ActivitySpot[];
   /** The six Home Lane houses, one per child profile. */
   homes: HomeInfo[];
   /** Building footprints, for keeping the camera out of walls. */
@@ -153,7 +171,7 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
   const shopStyles: ShopStyle[] = [
     { kind: "fruit", name: "🍎 Fruit Shop", wall: "#ffe8cc", trim: "#ffffff", stripeA: "#e03131", stripeB: "#ffffff", door: "#2b8a3e" },
     { kind: "bakery", name: "🥐 Bakery", wall: "#fff0d4", wallPattern: Pattern.Brick, trim: "#f8f0e3", stripeA: "#c2410c", stripeB: "#ffe8cc", door: "#7f5434" },
-    { kind: "toys", name: "🧸 Toy Shop", wall: "#d0ebff", trim: "#ffffff", stripeA: "#1c7ed6", stripeB: "#ffd43b", door: "#e8590c" },
+    { kind: "toys", name: "🤖 Workshop", wall: "#d0ebff", trim: "#ffffff", stripeA: "#1c7ed6", stripeB: "#ffd43b", door: "#e8590c" },
     { kind: "flowers", name: "🌸 Flowers", wall: "#ffdeeb", wallPattern: Pattern.Wood, trim: "#ffffff", stripeA: "#d6336c", stripeB: "#ffffff", door: "#37b24d" },
     { kind: "icecream", name: "🍦 Ice Cream", wall: "#e6fcf5", trim: "#ffffff", stripeA: "#f06595", stripeB: "#c3fae8", door: "#ae3ec9" },
     { kind: "books", name: "📚 Books", wall: "#f3f0ff", wallPattern: Pattern.Brick, trim: "#f8f9fa", stripeA: "#5f3dc4", stripeB: "#e5dbff", door: "#1864ab" },
@@ -185,6 +203,12 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
   b.bench(-17, -6.5, -Math.PI / 2);
   b.bin(-26.6, -2.9);
   b.signPost("🌳 Park", "#2f9e44", -12.6, 3.2, Math.PI / 2, 2.3, 0.8, 2.3);
+  // Explorer's Island: a little island in the pond, palms and rocks on the shore.
+  b.islet(-24.8, -7.8, 1.3);
+  b.landmark("m-palm-long", -29.9, -5.2, 0.4, 4.2, false);
+  b.landmark("m-palm-short", -18.2, -9.6, 1.9, 3.0, false);
+  b.scenery("m-formation-rock", -19.6, -10.4, 0.9, 0.5);
+  b.signPost("🏝️ Explorer's Island", "#0c8599", -15.8, -3.3, 0, 3.4, 0.8, 2.2);
   for (const [x, z, kind] of [
     [-34, 4, "round"], [-33, -12.5, "round"], [-27, -12.8, "blossom"], [-19.5, -12, "round"],
     [-15.5, -10, "pine"], [-14.5, 8.5, "blossom"], [-26, 11, "round"], [-36, 11, "pine"], [-18, 11.2, "round"],
@@ -213,6 +237,8 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
     b.tree(h.x + (random() < 0.5 ? -4 : 4), -29.5, 1.1, random() < 0.5 ? "round" : "pine");
   }
   const hall = b.townHall(0, -27.4, 0);
+  for (const sx of [-1, 1]) b.scenery("n-rock-small", sx * 1.45, -20.4, 0.55, 0.3);
+  b.signPost("⏳ Time Gate", "#7048e8", -3.6, -18.2, Math.PI / 2, 2.6, 0.7, 2.0);
   for (const sx of [-1, 1]) {
     b.lamp(sx * 2.0, -20.0);
     b.tree(sx * 7.6, -21.3, 1.0, "round");
@@ -310,6 +336,18 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
   const ambient = createAmbient(scene, { x: -24, z: -7.5, rx: 5.2, rz: 3.3 }, { x: 0, z: 0 }, [
     { x: -30, z: -3.5 }, { x: 21, z: 12.8 }, { x: -21, z: 12.8 }, { x: -6, z: -6.2 }, { x: 9, z: 12 },
   ]);
+  const portal = createTimePortal(scene, 0, -20.4);
+  const fruit = shops.find((s) => s.kind === "fruit")!;
+  const toys = shops.find((s) => s.kind === "toys")!;
+  const front = (shop: ShopInfo) => shop.keeper.add(new Vector3(Math.sin(shop.rotY), 0, Math.cos(shop.rotY)));
+  const islandSpot = nav.nearestWalkable(-19.6, -4.9) ?? new Vector3(-19.6, 0, -4.9);
+  const activities: ActivitySpot[] = [
+    { id: "shop", name: "Fruit Shop", emoji: "🍎", spot: fruit.keeper, lookAt: front(fruit) },
+    { id: "workshop", name: "Inventor's Workshop", emoji: "🤖", spot: toys.keeper, lookAt: front(toys) },
+    { id: "island", name: "Explorer's Island", emoji: "🏝️", spot: islandSpot, lookAt: new Vector3(-24.8, 0, -7.8) },
+    { id: "timegate", name: "Time Gate", emoji: "⏳", spot: new Vector3(0, 0, -18.4), lookAt: new Vector3(0, 0, -20.4) },
+  ];
+
   const clock = createClock(scene, material, hall.clock);
   const flag = createFlag(scene, hall.flag);
   let time = 0;
@@ -322,6 +360,7 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
       { x: 20, z: 1 }, { x: 30, z: -1 }, { x: -13, z: 16 }, { x: 13, z: 16 }, { x: 0, z: -18 },
     ],
     shops,
+    activities,
     homes,
     buildings: b.buildings,
     solidMeshes,
@@ -337,6 +376,7 @@ export function buildTown(scene: Scene, kit: Kit): TownInfo {
       ambient.update(dt);
       animals.update(dt);
       clock();
+      portal(dt);
       flag.rotation.y = Math.sin(time * 1.3) * 0.25;
       flag.scaling.x = 1 + Math.sin(time * 4) * 0.06;
     },
@@ -389,6 +429,61 @@ function createClock(scene: Scene, material: StandardMaterial, face: TransformNo
     // The clock faces the viewer, so turning around +Z goes clockwise for them.
     minute.rotation.z = (minutes / 60) * Math.PI * 2;
     hour.rotation.z = (hours / 12) * Math.PI * 2;
+  };
+}
+
+/** The Time Gate: a glowing ring with a swirl inside, in front of the Town Hall. Returns an update function. */
+function createTimePortal(scene: Scene, x: number, z: number): (dt: number) => void {
+  const ring = CreateTorus("timeGateRing", { diameter: 3.0, thickness: 0.32, tessellation: 32 }, scene);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.set(x, 1.85, z);
+  const ringMat = new StandardMaterial("timeGateRingMat", scene);
+  ringMat.diffuseColor = Color3.FromHexString("#ffd43b");
+  ringMat.emissiveColor = Color3.FromHexString("#b08900");
+  ringMat.specularColor = Color3.Black();
+  ring.material = ringMat;
+  ring.isPickable = false;
+
+  // The swirl: a spiral painted once, then spun round.
+  const tex = new DynamicTexture("timeGateSwirl", { width: 128, height: 128 }, scene, false);
+  const ctx = tex.getContext() as unknown as CanvasRenderingContext2D;
+  const grad = ctx.createRadialGradient(64, 64, 4, 64, 64, 64);
+  grad.addColorStop(0, "rgba(255,255,255,0.95)");
+  grad.addColorStop(0.35, "rgba(151,117,250,0.85)");
+  grad.addColorStop(1, "rgba(66,99,235,0.55)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 128, 128);
+  ctx.strokeStyle = "rgba(255,255,255,0.7)";
+  ctx.lineWidth = 5;
+  for (let arm = 0; arm < 3; arm++) {
+    ctx.beginPath();
+    for (let t = 0; t < 1; t += 0.02) {
+      const a = arm * ((Math.PI * 2) / 3) + t * 5;
+      const r = 6 + t * 56;
+      const px = 64 + Math.cos(a) * r;
+      const py = 64 + Math.sin(a) * r;
+      if (t === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+  tex.update();
+  tex.hasAlpha = true;
+  const swirl = CreateDisc("timeGateSwirl", { radius: 1.36, tessellation: 32, sideOrientation: Mesh.DOUBLESIDE }, scene);
+  swirl.position.set(x, 1.85, z);
+  const swirlMat = new StandardMaterial("timeGateSwirlMat", scene);
+  swirlMat.diffuseTexture = tex;
+  swirlMat.useAlphaFromDiffuseTexture = true;
+  swirlMat.disableLighting = true;
+  swirlMat.emissiveColor = Color3.White();
+  swirl.material = swirlMat;
+  swirl.isPickable = false;
+  let time = 0;
+  return (dt) => {
+    time += dt;
+    swirl.rotation.z -= dt * 1.6;
+    const pulse = 1 + Math.sin(time * 2.4) * 0.04;
+    swirl.scaling.set(pulse, pulse, 1);
   };
 }
 

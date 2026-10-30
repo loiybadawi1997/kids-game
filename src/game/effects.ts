@@ -101,3 +101,30 @@ export class TapMarker {
     if (t >= 1) this.ring.setEnabled(false);
   }
 }
+
+/** Softly pulsing rings on the ground where the learning activities start. */
+export class ActivityRings {
+  private rings: Mesh[] = [];
+  private time = 0;
+
+  constructor(scene: Scene, spots: Vector3[]) {
+    const mat = new StandardMaterial("activityRingMat", scene);
+    mat.disableLighting = true;
+    mat.emissiveColor = Color3.FromHexString("#ffe066");
+    mat.alpha = 0.75;
+    const source = CreateTorus("activityRing", { diameter: 2.2, thickness: 0.12, tessellation: 32 }, scene);
+    source.material = mat;
+    source.isPickable = false;
+    spots.forEach((p, i) => {
+      const ring = i === 0 ? source : source.clone(`activityRing${i}`);
+      ring.position.set(p.x, 0.1, p.z);
+      this.rings.push(ring);
+    });
+  }
+
+  update(dt: number): void {
+    this.time += dt;
+    const s = 1 + Math.sin(this.time * 3) * 0.08;
+    for (const r of this.rings) r.scaling.set(s, 1, s);
+  }
+}

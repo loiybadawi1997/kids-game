@@ -2,18 +2,19 @@ import { Profile } from "../profiles";
 
 /**
  * The things on screen while walking around town: who is playing and
- * their coins (top left), and big "go home" / "go to my shop" buttons.
+ * their coins (top left), "go home" and "places" buttons, and a big
+ * start button when standing at an activity.
  */
 export class Hud {
   private root: HTMLDivElement;
   private nameEl: HTMLElement;
   private coinsEl: HTMLElement;
   private portraitEl: HTMLElement;
-  private shopButton: HTMLButtonElement;
+  private startButton: HTMLButtonElement;
   onProfileTap: (() => void) | null = null;
   onHome: (() => void) | null = null;
-  onShop: (() => void) | null = null;
-  onRunShop: (() => void) | null = null;
+  onPlaces: (() => void) | null = null;
+  onStart: (() => void) | null = null;
 
   constructor() {
     const root = document.createElement("div");
@@ -26,19 +27,19 @@ export class Hud {
       </button>
       <div class="hud-buttons">
         <button class="round-btn hud-btn home" aria-label="Go home">🏠</button>
-        <button class="round-btn hud-btn shop" aria-label="Go to my shop">🛒</button>
+        <button class="round-btn hud-btn places" aria-label="Places to go">🗺️</button>
       </div>
-      <button class="big-btn run-shop" hidden>🍎 Open my shop!</button>`;
+      <button class="big-btn run-shop" hidden></button>`;
     document.body.append(root);
     this.root = root;
     this.nameEl = root.querySelector(".chip-name")!;
     this.coinsEl = root.querySelector(".chip-coins")!;
     this.portraitEl = root.querySelector(".chip-portrait")!;
-    this.shopButton = root.querySelector(".run-shop")!;
+    this.startButton = root.querySelector(".run-shop")!;
     root.querySelector(".player-chip")!.addEventListener("click", () => this.onProfileTap?.());
     root.querySelector(".home")!.addEventListener("click", () => this.onHome?.());
-    root.querySelector(".shop")!.addEventListener("click", () => this.onShop?.());
-    this.shopButton.addEventListener("click", () => this.onRunShop?.());
+    root.querySelector(".places")!.addEventListener("click", () => this.onPlaces?.());
+    this.startButton.addEventListener("click", () => this.onStart?.());
   }
 
   show(profile: Profile): void {
@@ -63,8 +64,10 @@ export class Hud {
     this.coinsEl.classList.add("bump");
   }
 
-  showRunShop(show: boolean): void {
-    this.shopButton.hidden = !show;
+  /** Show the big start button (e.g. "🍎 Open my shop!"), or hide it with null. */
+  showStart(label: string | null): void {
+    this.startButton.hidden = label === null;
+    if (label) this.startButton.textContent = label;
   }
 }
 

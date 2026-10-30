@@ -943,6 +943,15 @@ export class PropBuilder {
     this.nav.blockEllipse(x, z, rx + 0.3, rz + 0.3);
   }
 
+  /** A little sandy island with a palm tree (sits in a pond). */
+  islet(x: number, z: number, r: number): void {
+    const g = this.group(x, z);
+    this.cyl(g, "#f4dfa8", 0.22, r * 0.85, r, [0, 0.1, 0], 14);
+    this.cyl(g, "#e9cf8c", 0.04, r * 0.5, r * 0.5, [r * 0.15, 0.22, -r * 0.1], 10);
+    this.kitAt(g, "m-palm-short", [0, 0.2, 0], { height: 2.6, rotY: 0.6 });
+    this.kitAt(g, "n-rock-small", [r * 0.55, 0.15, r * 0.35], { height: 0.35 });
+  }
+
   /** A playground slide. */
   slide(x: number, z: number, rotY: number): void {
     const g = this.group(x, z, rotY);

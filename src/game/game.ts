@@ -8,9 +8,9 @@ import { PointerEventTypes } from "@babylonjs/core/Events/pointerEvents";
 // Needed for scene.createPickingRay() (Babylon only includes features we import).
 import "@babylonjs/core/Culling/ray";
 import { Character, CharacterLook, presetLook } from "./character";
-import { BlobShadows, TapMarker } from "./effects";
+import { ActivityRings, BlobShadows, TapMarker } from "./effects";
 import { Sky, createSky } from "./sky";
-import { ShopInfo, TownInfo, buildTown } from "./town";
+import { ActivityId, ActivitySpot, TownInfo, buildTown } from "./town";
 import { Townsperson, createTownsfolk } from "./townsfolk";
 import { Walker } from "./walker";
 import { makeRandom } from "./props";
@@ -19,12 +19,10 @@ import { createVertexColorMaterial } from "./meshKit";
 import { Graphics, QualitySetting, guessQuality } from "./graphics";
 import { SpeechBubbles } from "../ui/speechBubbles";
 import { TouchControls } from "../ui/joystick";
+import { Beacons } from "../ui/beacons";
 
 /** Used before a child has picked a profile (and for the start screen backdrop). */
 export const DEFAULT_LOOK: CharacterLook = presetLook("mecha");
-
-/** The shop the children run (Market Street, first shop on the north side). */
-export const PLAYER_SHOP_KIND = "fruit";
 
 /**
  * The 3D town: builds the world, then each frame moves the player,
@@ -50,8 +48,8 @@ export class Game {
   private lastSetBeta = 1.02;
   private lastManualTurn = -10;
   private clock = 0;
-  /** Called when the player is standing at their shop's counter (or walks away: null). */
-  onShopNearby: ((shop: ShopInfo | null) => void) | null = null;
+  /** Called when the player is standing at an activity (shop counter, workshop, island, time gate), or walks away (null). */
+  onActivityNearby: ((place: ActivitySpot | null) => void) | null = null;
 
   private camera: ArcRotateCamera;
   player: Character;
@@ -62,8 +60,9 @@ export class Game {
   private bubbles: SpeechBubbles;
   private sky: Sky;
   private onFirstTap: (() => void) | null = null;
-  private playerShop: ShopInfo;
-  private nearShop = false;
+  private nearActivity: ActivitySpot | null = null;
+  private rings: ActivityRings;
+  private beacons: Beacons;
 
   /** Load the model kit, then build the game. */
   static async create(engine: Engine, canvas: HTMLCanvasElement, qualitySetting: QualitySetting): Promise<Game> {
@@ -93,7 +92,6 @@ export class Game {
     this.sky = createSky(scene, random);
     const town = buildTown(scene, kit);
     this.town = town;
-    this.playerShop = town.shops.find((s) => s.kind === PLAYER_SHOP_KIND)!;
 
     // Heroes are built smooth and shiny unless the device is on Low quality.
     const startQuality = qualitySetting === "auto" ? guessQuality(engine) : qualitySetting;
@@ -107,7 +105,7 @@ export class Game {
     this.player.root.rotation.y = Math.PI;
 
     // --- Townsfolk (shopkeepers stand at the shops the children don't run) ---
-    const keeperSpots = town.shops.filter((s) => s.kind === "bakery" || s.kind === "toys").map((s) => ({ x: s.keeper.x, z: s.keeper.z, rotY: s.rotY }));
+    const keeperSpots = town.shops.filter((s) => s.kind === "bakery").map((s) => ({ x: s.keeper.x, z: s.keeper.z, rotY: s.rotY }));
     this.people = createTownsfolk(scene, town.nav, random, town.hangouts, keeperSpots);
 
     // --- Effects ---
@@ -116,6 +114,10 @@ export class Game {
     for (const p of this.people) this.blobs.add(p.character);
     this.marker = new TapMarker(scene);
     this.bubbles = new SpeechBubbles(document.getElementById("bubbles")!, (p) => this.toScreen(p));
+    // Glowing rings and floating icons show where the learning activities are.
+    this.rings = new ActivityRings(scene, town.activities.map((a) => a.spot));
+    this.beacons = new Beacons(town.activities, (p) => this.toScreen(p));
+    this.beacons.onTap = (id) => this.goToActivity(id);
 
     // --- Camera: follows the player. Drag to turn it, pinch to zoom. ---
     const cam = new ArcRotateCamera("camera", -Math.PI / 2, 1.02, 9.5, this.player.position.add(new Vector3(0, 1.2, 0)), scene);
@@ -187,7 +189,7 @@ export class Game {
     old.dispose();
     this.track(this.player, false);
     this.camera.target.set(pos.x, 1, pos.z);
-    this.nearShop = false;
+    this.nearActivity = null;
   }
 
   /** Walk the player back to a Home Lane house. */
@@ -196,10 +198,17 @@ export class Game {
     if (this.playerWalker.goTo(door.clone(), () => this.playerWalker.face(door.add(new Vector3(0, 0, -1))))) this.marker.show(door);
   }
 
-  /** Walk the player to their shop counter. */
-  goToShop(): void {
-    this.marker.show(this.playerShop.keeper);
-    this.playerWalker.goTo(this.playerShop.keeper.clone(), () => this.playerWalker.face(this.playerShop.keeper.add(new Vector3(Math.sin(this.playerShop.rotY), 0, Math.cos(this.playerShop.rotY)))));
+  /** Walk the player to an activity (shop counter, workshop, island, time gate). */
+  goToActivity(id: ActivityId): void {
+    const place = this.town.activities.find((a) => a.id === id);
+    if (!place) return;
+    this.marker.show(place.spot);
+    this.playerWalker.goTo(place.spot.clone(), () => this.playerWalker.face(place.lookAt));
+  }
+
+  /** Show or hide the floating activity icons (hidden behind menus). */
+  showBeacons(show: boolean): void {
+    this.beacons.show(show);
   }
 
   private handleTap(x: number, y: number): void {
@@ -387,12 +396,15 @@ export class Game {
 
     this.updateCamera(dt, stickAmount > 0.01 || this.playerWalker.isWalking);
 
-    // Is the player standing at their shop?
-    const near = Vector3.Distance(this.player.position, this.playerShop.keeper) < 2.6 && !this.playerWalker.isWalking;
-    if (near !== this.nearShop) {
-      this.nearShop = near;
-      this.onShopNearby?.(near ? this.playerShop : null);
+    // Is the player standing at an activity?
+    const still = !this.playerWalker.isWalking && stickAmount < 0.01;
+    const near = still ? this.town.activities.find((a) => Vector3.Distance(this.player.position, a.spot) < 2.6) ?? null : this.nearActivity && Vector3.Distance(this.player.position, this.nearActivity.spot) < 2.6 ? this.nearActivity : null;
+    if (near !== this.nearActivity) {
+      this.nearActivity = near;
+      this.onActivityNearby?.(near);
     }
+    this.rings.update(dt);
+    this.beacons.update(this.player.position, near?.id ?? null);
 
     this.bubbles.update();
   }

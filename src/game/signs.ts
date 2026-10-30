@@ -14,7 +14,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 
 const ATLAS = 1024;
 const COLS = 2;
-const ROWS = 10;
+const ROWS = 13;
 const CELL_W = ATLAS / COLS;
 const CELL_H = Math.floor(ATLAS / ROWS);
 

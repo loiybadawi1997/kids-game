@@ -87,5 +87,6 @@ Do not start a later step unless asked.
 - [x] Extra: Forge3D heroes replace the kid avatars (see docs/CHARACTERS.md)
 - [x] Step 4: Market Street shop
 - [x] Extra: CC0 Kenney/Quaternius models in town (houses, nature, food, animals, landmarks), joystick controls
+- [x] Extra (owner asked): all four learning districts playable: Workshop robot coding, Island journal and science puzzles, Time Gate history quests, places menu
 - [ ] Step 5: Upgrades and decoration
 - [ ] Step 6: Device testing

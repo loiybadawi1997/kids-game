@@ -23,12 +23,25 @@ The installed app opens full screen in landscape and works offline.
   their own hero avatar (mecha, knight, cyberpunk, wizard or bot, see `docs/CHARACTERS.md`)
   and their own house on Home Lane. Tap ✏️ on a card to change it.
   Everything is saved on this device only.
-- 🏠 walks you home, 🛒 walks you to your shop. At the shop counter tap **🍎 Open my shop!**
+- 🏠 walks you home. 🗺️ shows the four learning places; tap one and your hero walks there
+  (you can also tap the floating 🍎 🤖 🏝️ ⏳ icons in town). Stand on the glowing ring and tap
+  the big green button to start. Every activity has a ⭐ Middle and a 🌟 Big level and ends with coins.
+- **🍎 Fruit Shop** (Market Street, money and maths). Tap **🍎 Open my shop!**
   to run the Fruit Shop for a day (about 10–15 minutes):
   - ⭐ Middle: pick the fruit each customer asks for, add up the price, give the right change.
   - 🌟 Big: first buy fruit from the farmer (budget 🪙 60) and set your prices, then serve
     customers; prices that are too high make customers say no. The day ends with a profit summary.
   - Every day ends with coins for the child, saved to their profile.
+- **🤖 Inventor's Workshop** (the blue and yellow shop on Market Street, coding). Tap blocks to build
+  a program, then ▶️ Run it to get the robot to the battery 🔋. Collect gears ⚙️ and use few blocks
+  for stars. ⭐ Middle: steps, turns and 🔁 Repeat. 🌟 Big: loops, 🔁 Until 🔋 and ❓ If 🧱 ahead.
+  Four puzzles per visit; the next visit carries on where you stopped (8 puzzles per level).
+- **🏝️ Explorer's Island** (the pond in the park, science). Tap ❓ spots on the island map to discover
+  animals, plants and fossils, read a fact and answer a question; each one goes in your 📔 journal
+  (24 to collect). Halfway, fix the bridge with a science puzzle: ⭐ float or sink, 🌟 balance the seesaw.
+- **⏳ Time Gate** (the swirling ring in front of the Town Hall, history). Travel to Ancient Egypt,
+  al-Andalus, Baghdad's House of Wisdom or the Silk Road, help a guide in four scenes, and win a rare
+  decoration the first time (🐈, ⛲, 🔭, 🏮), kept for decorating your house later.
 - Tap your picture (top left) to switch player.
 
 - **Move the joystick** (bottom left) to walk, **⬆️ Jump** (bottom right) to jump, or **tap the ground** to walk there.
@@ -54,9 +67,12 @@ npm run preview  # serves the built site, like it will be online
 ## Code map
 
 - `src/main.ts`: starts the engine, loading screen, automatic quality
-- `src/app.ts`: moves between the screens (profiles, creator, town, shop)
+- `src/app.ts`: moves between the screens (profiles, creator, town, places menu, activities) and saves rewards
 - `src/profiles.ts`: saving the children's profiles
 - `src/shop/`: the Fruit Shop day (`shopData.ts` has the maths rules, `shopScreen.ts` the screens)
+- `src/learn/`: the Workshop, Island and Time Gate activities. Each has a `...Data.ts` file with the
+  puzzles, facts and questions (easy to edit; the first answer in each list is the right one) and a
+  `...Screen.ts` file with the screen. `ui.ts` has the shared question, ordering and reward screens.
 - `src/ui/`: the 2D screens (profile picker, avatar creator, HUD, settings)
 - `src/game/game.ts`: the game loop, tapping, camera
 - `src/game/town.ts`: the town layout (where every house, tree and path goes)

@@ -13,6 +13,20 @@ export interface ShopRecord {
   bestProfit: number;
 }
 
+/** What a child has learned so far in the districts. */
+export interface LearnRecord {
+  /** Inventor's Workshop: how many robot puzzles are solved, per level. */
+  workshop: Record<Level, number>;
+  /** Explorer's Island: ids of the animals, plants and fossils in the journal. */
+  journal: string[];
+  /** Time Gate: ids of the places whose quest is finished. */
+  quests: string[];
+}
+
+export function emptyLearn(): LearnRecord {
+  return { workshop: { middle: 0, big: 0 }, journal: [], quests: [] };
+}
+
 export interface Profile {
   id: string;
   name: string;
@@ -24,6 +38,9 @@ export interface Profile {
   /** A small picture of their avatar for the profile picker. */
   portrait: string;
   shop: ShopRecord;
+  learn: LearnRecord;
+  /** Rare decorations won in the districts (for decorating the house later). */
+  items: string[];
 }
 
 export const MAX_PROFILES = 6;
@@ -42,6 +59,8 @@ export function loadProfiles(): Profile[] {
       look: normalizeLook(p.look),
       coins: Number.isFinite(p.coins) ? p.coins : 0,
       shop: p.shop ?? { days: 0, bestProfit: 0 },
+      learn: { ...emptyLearn(), ...p.learn, workshop: { ...emptyLearn().workshop, ...p.learn?.workshop } },
+      items: Array.isArray(p.items) ? p.items : [],
       // Pictures saved before the heroes arrived show the old look, so drop them.
       portrait: (p.look as unknown as { archetype?: string })?.archetype ? p.portrait ?? "" : "",
     }));

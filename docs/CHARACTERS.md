@@ -62,4 +62,4 @@ Each type is a ready-made combination of parts and colours. A child can start fr
   - `finish`, `pose`
 
   `normalizeLook()` repairs any saved look. Profiles saved before the heroes (kid looks with hair and clothes) become a Mecha in their old favourite colours.
-- **Townsfolk:** townsfolk, shopkeepers and customers get random heroes (`randomLook()`). The two shopkeepers are always friendly Bots.
+- **Townsfolk:** townsfolk, shopkeepers and customers get random heroes (`randomLook()`). The Bakery shopkeeper is always a friendly Bot.
